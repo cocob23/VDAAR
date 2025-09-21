@@ -1,0 +1,101 @@
+export const mockArmas = [
+  {
+    id: 1,
+    nombre: 'Glock 17',
+    marca: 'Glock',
+    modelo: '17',
+    tipo_arma: 'Pistola',
+    calibre: '9mm',
+    estado_arma: 'Usada',
+    precio_venta: 850000,
+    moneda: 'ARS',
+    ciudad: 'Buenos Aires',
+    provincia: 'Buenos Aires',
+    pais: 'Argentina',
+    comentarios: 'Excelente estado, pocos disparos, incluye funda original y documentación.',
+    empadronamiento: 'Reempadronada',
+    numero_serie: 'GL123456789',
+    estado_publicacion: 'PUBLICADA_CON_CONTACTO',
+    destacado: true,
+    telefono: '+54 11 1234-5678',
+    email: 'vendedor1@example.com',
+    fotos: [
+      'https://images.unsplash.com/photo-1595590424283-b8f17842773f?w=400&h=300&fit=crop',
+      'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop'
+    ],
+    fecha_creacion: '2024-01-15T10:00:00Z'
+  },
+  {
+    id: 2,
+    nombre: 'Beretta 92FS',
+    marca: 'Beretta',
+    modelo: '92FS',
+    tipo_arma: 'Pistola',
+    calibre: '9mm',
+    estado_arma: 'Nueva',
+    precio_venta: 1200,
+    moneda: 'USD',
+    ciudad: 'Córdoba',
+    provincia: 'Córdoba',
+    pais: 'Argentina',
+    comentarios: 'Pistola nueva sin uso, en caja original con todos los accesorios.',
+    empadronamiento: 'En venta NUEVA',
+    numero_serie: 'BER987654321',
+    estado_publicacion: 'VENDIDA',
+    destacado: false,
+    telefono: '+54 351 987-6543',
+    email: 'vendedor2@example.com',
+    fotos: [
+      'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop'
+    ],
+    fecha_creacion: '2024-01-20T14:30:00Z'
+  },
+  {
+    id: 3,
+    nombre: 'Winchester Model 70',
+    marca: 'Winchester',
+    modelo: 'Model 70',
+    tipo_arma: 'Fusil',
+    calibre: '.308',
+    estado_arma: 'Usada',
+    precio_venta: 2500000,
+    moneda: 'ARS',
+    ciudad: 'Mendoza',
+    provincia: 'Mendoza',
+    pais: 'Argentina',
+    comentarios: 'Fusil de caza en muy buen estado, ideal para tiro deportivo y caza mayor.',
+    empadronamiento: 'Tenencia Vigente',
+    numero_serie: 'WIN456789123',
+    estado_publicacion: 'PUBLICADA_SIN_CONTACTO',
+    destacado: false,
+    fotos: [
+      'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop'
+    ],
+    fecha_creacion: '2024-01-10T09:15:00Z'
+  },
+  {
+    id: 4,
+    nombre: 'Remington 870',
+    marca: 'Remington',
+    modelo: '870',
+    tipo_arma: 'Escopeta',
+    calibre: '12ga',
+    estado_arma: 'Usada',
+    precio_venta: 1800000,
+    moneda: 'ARS',
+    ciudad: 'Rosario',
+    provincia: 'Santa Fe',
+    pais: 'Argentina',
+    comentarios: 'Escopeta clásica para caza y tiro deportivo, muy confiable.',
+    empadronamiento: 'Reempadronada',
+    numero_serie: 'REM789456123',
+    estado_publicacion: 'PUBLICADA_CON_CONTACTO',
+    destacado: true,
+    telefono: '+54 341 555-1234',
+    email: 'cazador@example.com',
+    fotos: [
+      'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop'
+    ],
+    fecha_creacion: '2024-01-05T16:45:00Z'
+  }
+];

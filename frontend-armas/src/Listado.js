@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
+import { mockArmas } from './mockData';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,298 +24,363 @@ function Listado() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // --- ESTILOS MILITAR OSCURO ---
+  // --- ESTILOS PROFESIONALES PREMIUM ---
   const styles = {
-    container: { width: '100vw', maxWidth: '100vw', margin: 0, padding: 0 },
+    container: { 
+      width: '100vw', 
+      maxWidth: '100vw', 
+      margin: 0, 
+      padding: 0,
+      background: 'linear-gradient(135deg, #0f1419 0%, #1a1f28 25%, #252b37 50%, #1a1f28 75%, #0f1419 100%)',
+      minHeight: '100vh',
+      fontFamily: '"Inter", "Roboto", system-ui, sans-serif'
+    },
     titulo: { 
-      color: '#4a7c59',
-      textShadow: '0 0 15px rgba(74, 124, 89, 0.6), 0 0 30px rgba(74, 124, 89, 0.4)',
-      fontWeight: 900, 
-      fontSize: 42, 
+      color: '#ffffff',
+      textShadow: '0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.15)',
+      fontWeight: 800, 
+      fontSize: 46, 
       textAlign: 'center', 
-      margin: '48px 0 32px 0', 
-      letterSpacing: '3px', 
+      margin: '48px 0 36px 0', 
+      letterSpacing: '2px', 
       textTransform: 'uppercase',
-      fontFamily: '"Roboto Mono", monospace'
+      fontFamily: '"Inter", sans-serif',
+      position: 'relative',
+      '::before': {
+        content: '""',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '120%',
+        height: '120%',
+        background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%)',
+        zIndex: -1
+      }
     },
     filtros: {
-      background: 'linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
-      backdropFilter: 'blur(10px)',
-      borderRadius: 16,
-      padding: 24,
+      background: 'rgba(0, 0, 0, 0.7)',
+      backdropFilter: 'blur(20px)',
+      borderRadius: 20,
+      padding: 28,
       display: 'flex',
-      gap: 16,
+      gap: 18,
       flexWrap: 'wrap',
       alignItems: 'center',
-      marginBottom: 32,
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
-      border: '2px solid rgba(74, 124, 89, 0.3)',
+      justifyContent: 'center',
+      marginBottom: 40,
+      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+      border: '1px solid rgba(255, 215, 0, 0.2)',
       width: 'calc(100vw - 80px)',
       minWidth: 'calc(100vw - 80px)',
       position: 'relative',
       left: '50%',
       transform: 'translateX(-50%)',
-      justifyContent: 'center',
       marginLeft: 0,
       marginRight: 0
     },
     input: { 
-      border: '2px solid rgba(74, 124, 89, 0.4)', 
-      borderRadius: 8, 
-      padding: '12px 16px', 
-      fontSize: 15, 
-      minWidth: 140,
-      background: 'rgba(15, 15, 15, 0.9)',
-      color: '#e0e0e0',
+      border: '2px solid rgba(255, 215, 0, 0.3)', 
+      borderRadius: 12, 
+      padding: '14px 18px', 
+      fontSize: 16, 
+      minWidth: 160,
+      background: 'rgba(0, 0, 0, 0.6)',
+      color: '#ffffff',
       fontWeight: 500,
-      transition: 'all 0.3s ease',
-      fontFamily: '"Roboto Mono", monospace'
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      fontFamily: '"Inter", sans-serif',
+      '::placeholder': {
+        color: 'rgba(255, 255, 255, 0.6)'
+      },
+      ':focus': {
+        borderColor: '#ffd700',
+        boxShadow: '0 0 15px rgba(255, 215, 0, 0.4)',
+        outline: 'none'
+      }
     },
     select: { 
-      border: '2px solid rgba(74, 124, 89, 0.4)', 
-      borderRadius: 8, 
-      padding: '12px 16px', 
-      fontSize: 15, 
-      minWidth: 140,
-      background: 'rgba(15, 15, 15, 0.9)',
-      color: '#e0e0e0',
+      border: '2px solid rgba(255, 215, 0, 0.3)', 
+      borderRadius: 12, 
+      padding: '14px 18px', 
+      fontSize: 16, 
+      minWidth: 160,
+      background: 'rgba(0, 0, 0, 0.6)',
+      color: '#ffffff',
       fontWeight: 500,
-      transition: 'all 0.3s ease',
-      fontFamily: '"Roboto Mono", monospace',
-      cursor: 'pointer'
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      fontFamily: '"Inter", sans-serif',
+      cursor: 'pointer',
+      ':focus': {
+        borderColor: '#ffd700',
+        boxShadow: '0 0 15px rgba(255, 215, 0, 0.4)',
+        outline: 'none'
+      }
     },
     btnBorrar: { 
-      background: 'linear-gradient(135deg, #8b0000 0%, #660000 100%)', 
-      color: '#fff', 
-      border: '2px solid #8b0000', 
-      borderRadius: 8, 
-      padding: '12px 24px', 
-      fontWeight: 600, 
+      background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)', 
+      color: '#ffffff', 
+      border: '2px solid #dc2626', 
+      borderRadius: 12, 
+      padding: '14px 28px', 
+      fontWeight: 700, 
       cursor: 'pointer', 
-      marginLeft: 12,
-      fontSize: 15,
-      transition: 'all 0.3s ease',
-      boxShadow: '0 0 15px rgba(139, 0, 0, 0.4)',
+      marginLeft: 16,
+      fontSize: 16,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      boxShadow: '0 4px 15px rgba(220, 38, 38, 0.3)',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontFamily: '"Roboto Mono", monospace',
+      fontFamily: '"Inter", sans-serif',
       position: 'relative',
-      overflow: 'hidden'
-    },
-    'btnBorrar:hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 8px 25px rgba(238, 90, 36, 0.4)'
+      overflow: 'hidden',
+      ':hover': {
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 25px rgba(220, 38, 38, 0.4)'
+      }
     },
 
     grid: {
       display: 'flex',
       flexWrap: 'wrap',
-      gap: 24,
-      justifyContent: 'flex-start',
-      width: 'calc(100vw - 64px)',
-      minWidth: 'calc(100vw - 64px)',
+      gap: 32,
+      justifyContent: 'center',
+      width: 'calc(100vw - 80px)',
+      minWidth: 'calc(100vw - 80px)',
       marginLeft: 'auto',
       marginRight: 'auto',
-      marginTop: 16,
-      marginBottom: 32,
-      padding: 0,
+      marginTop: 24,
+      marginBottom: 60,
+      padding: '0 20px',
       boxSizing: 'border-box',
       '@media (max-width: 700px)': {
         flexDirection: 'column',
-        gap: 12,
+        gap: 20,
         width: '100vw',
         minWidth: '100vw',
-        padding: '0 2vw',
+        padding: '0 16px',
       }
     },
     card: arma => {
       const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
-      if (!isMobile) {
-        return {
-          border: '2px solid rgba(74, 124, 89, 0.3)',
-          borderRadius: 16,
-          background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
-          backdropFilter: 'blur(10px)',
-          color: '#e0e0e0',
-          padding: 0,
-          width: 320,
-          maxWidth: '98vw',
-          boxShadow: arma.destacado 
-            ? '0 0 30px rgba(74, 124, 89, 0.6), 0 16px 40px rgba(0, 0, 0, 0.4)' 
-            : '0 8px 32px rgba(0, 0, 0, 0.6)',
-          position: 'relative',
-          overflow: 'hidden',
-          marginBottom: 16,
-          display: 'flex',
-          flexDirection: 'column',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          transform: 'translateY(0)',
-          fontFamily: '"Roboto Mono", monospace'
-        };
-      }
-      // MOBILE: diseño horizontal, foto grande, info alineada, botón destacado
-      return {
-        border: '2px solid rgba(74, 124, 89, 0.3)',
-        borderRadius: 16,
-        background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
-        backdropFilter: 'blur(10px)',
-        color: '#e0e0e0',
-        width: '98vw',
-        maxWidth: 500,
-        minHeight: 140,
-        margin: '0 auto 20px auto',
+      const baseStyle = {
+        background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%)',
+        backdropFilter: 'blur(20px)',
+        borderRadius: 24,
         boxShadow: arma.destacado 
-          ? '0 0 30px rgba(74, 124, 89, 0.6), 0 16px 40px rgba(0, 0, 0, 0.4)' 
-          : '0 8px 32px rgba(0, 0, 0, 0.6)',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 0,
+          ? '0 20px 60px rgba(255, 215, 0, 0.3), 0 8px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8)' 
+          : '0 10px 40px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
+        border: arma.destacado 
+          ? '3px solid #ffd700' 
+          : '1px solid rgba(0, 0, 0, 0.08)',
         overflow: 'hidden',
         position: 'relative',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-        fontFamily: '"Roboto Mono", monospace'
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        fontFamily: '"Inter", sans-serif',
+        color: '#1f2937'
+      };
+      
+      if (isMobile) {
+        return {
+          ...baseStyle,
+          width: 'calc(100vw - 32px)',
+          maxWidth: '480px',
+          minHeight: '200px',
+          margin: '0 auto 24px auto',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'stretch'
+        };
+      }
+      
+      return {
+        ...baseStyle,
+        width: '380px',
+        maxWidth: '380px',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '520px'
       };
     },
     destacado: { 
       position: 'absolute', 
       top: 0, 
-      left: 0, 
-      background: 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)', 
-      color: '#fff', 
+      left: 0,
+      right: 0,
+      background: 'linear-gradient(135deg, #ffd700 0%, #f59e0b 100%)', 
+      color: '#1f2937', 
       fontWeight: 800, 
-      padding: '8px 20px 8px 16px', 
-      borderRadius: '0 0 12px 0', 
+      padding: '12px 0', 
       fontSize: 14, 
-      letterSpacing: '1px', 
-      zIndex: 2, 
+      letterSpacing: '2px', 
+      zIndex: 10, 
       display: 'flex', 
       alignItems: 'center', 
+      justifyContent: 'center',
       gap: 8,
       textTransform: 'uppercase',
-      boxShadow: '0 0 15px rgba(74, 124, 89, 0.5)',
-      fontFamily: '"Roboto Mono", monospace',
-      textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.4)',
+      fontFamily: '"Inter", sans-serif',
+      textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.3)'
     },
     img: {
-      width: 'calc(100% - 32px)',
-      height: 200,
+      width: '100%',
+      height: '240px',
       objectFit: 'contain',
       border: 'none',
-      borderRadius: '12px 12px 0 0',
-      background: '#1a1a1a',
-      margin: '16px 16px 0 16px',
+      borderRadius: '20px 20px 0 0',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+      marginBottom: 0,
       display: 'block',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+      padding: '16px',
+      boxSizing: 'border-box'
     },
     imgMobile: {
-      width: '38vw',
-      height: 'auto',
-      aspectRatio: '1.2/1',
-      maxWidth: 170,
-      minWidth: 110,
+      width: '140px',
+      height: '140px',
+      minWidth: '140px',
       objectFit: 'contain',
       border: 'none',
-      borderRadius: 12,
-      background: '#1a1a1a',
-      margin: '12px 0 12px 16px',
+      borderRadius: '20px 0 0 20px',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
       display: 'block',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+      padding: '12px',
+      boxSizing: 'border-box'
     },
-    nombre: { 
-      fontWeight: 700, 
-      fontSize: 20, 
-      margin: '16px 0 8px 0', 
-      color: '#4a7c59', 
-      textAlign: 'center',
-      letterSpacing: '1px',
-      fontFamily: '"Roboto Mono", monospace',
-      textShadow: '0 0 8px rgba(74, 124, 89, 0.4)'
+    nome: { 
+      fontWeight: 800, 
+      fontSize: 22, 
+      margin: '0 0 8px 0', 
+      color: '#1f2937', 
+      textAlign: 'left',
+      letterSpacing: '0.5px',
+      fontFamily: '"Inter", sans-serif',
+      lineHeight: 1.2
     },
     precio: { 
-      fontWeight: 800, 
-      fontSize: 24, 
-      color: '#4a7c59',
-      margin: '8px 0 0 0',
-      textAlign: 'center',
-      fontFamily: '"Roboto Mono", monospace',
-      textShadow: '0 0 8px rgba(74, 124, 89, 0.4)'
+      fontWeight: 900, 
+      fontSize: 28, 
+      color: '#059669',
+      margin: '12px 0',
+      textAlign: 'left',
+      fontFamily: '"Inter", sans-serif',
+      letterSpacing: '0.5px',
+      textShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      '::before': {
+        content: '"💰"',
+        fontSize: '20px'
+      }
     },
     btn: { 
-      background: 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)', 
-      color: '#fff', 
-      border: '2px solid #4a7c59', 
-      borderRadius: 8, 
+      background: 'linear-gradient(135deg, #059669 0%, #047857 100%)', 
+      color: '#ffffff', 
+      border: 'none', 
+      borderRadius: 12, 
       padding: '12px 24px', 
       fontWeight: 700, 
       cursor: 'pointer', 
-      margin: '12px 8px 16px 0', 
+      margin: '8px 0 0 0', 
       fontSize: 15,
-      transition: 'all 0.3s ease',
-      boxShadow: '0 0 15px rgba(74, 124, 89, 0.4)',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      boxShadow: '0 4px 15px rgba(5, 150, 105, 0.3)',
       textTransform: 'uppercase',
-      letterSpacing: '1px',
-      fontFamily: '"Roboto Mono", monospace'
+      letterSpacing: '0.5px',
+      fontFamily: '"Inter", sans-serif',
+      width: '100%',
+      ':hover': {
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 25px rgba(5, 150, 105, 0.4)'
+      }
     },
     btnDetalles: { 
-      background: 'linear-gradient(135deg, #555 0%, #333 100%)', 
-      color: '#e0e0e0', 
-      border: '2px solid #555', 
-      borderRadius: 8, 
-      padding: '12px 24px', 
-      fontWeight: 700, 
+      background: 'linear-gradient(135deg, #ffd700 0%, #f59e0b 100%)', 
+      color: '#1f2937', 
+      border: 'none', 
+      borderRadius: 12, 
+      padding: '14px 28px', 
+      fontWeight: 800, 
       cursor: 'pointer', 
       fontSize: 15,
-      transition: 'all 0.3s ease',
-      boxShadow: '0 0 10px rgba(85, 85, 85, 0.4)',
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
       textTransform: 'uppercase',
       letterSpacing: '1px',
-      fontFamily: '"Roboto Mono", monospace'
+      fontFamily: '"Inter", sans-serif',
+      width: '100%',
+      marginTop: 8,
+      ':hover': {
+        transform: 'translateY(-2px)',
+        boxShadow: '0 8px 25px rgba(255, 215, 0, 0.4)'
+      }
     },
     chip: color => ({ 
       display: 'inline-block', 
-      background: `linear-gradient(135deg, ${color} 0%, ${color}aa 100%)`, 
-      color: '#fff', 
-      borderRadius: 8, 
+      background: `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`, 
+      color: '#ffffff', 
+      borderRadius: 20, 
       padding: '6px 12px', 
       fontSize: 12, 
       fontWeight: 600, 
       margin: '0 6px 6px 0',
       textTransform: 'uppercase',
-      letterSpacing: '1px',
-      boxShadow: `0 0 8px ${color}33`,
-      fontFamily: '"Roboto Mono", monospace'
+      letterSpacing: '0.5px',
+      boxShadow: `0 2px 8px ${color}40`,
+      fontFamily: '"Inter", sans-serif',
+      border: `1px solid ${color}20`
     }),
     vendido: { 
-      marginTop: 12, 
-      fontWeight: 800, 
-      color: '#8b0000',
-      fontSize: 20, 
+      background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+      color: '#ffffff',
+      fontSize: 16, 
+      fontWeight: 800,
+      padding: '12px 20px',
+      borderRadius: 12,
       textAlign: 'center',
       textTransform: 'uppercase',
-      letterSpacing: '2px',
-      fontFamily: '"Roboto Mono", monospace',
-      textShadow: '0 0 10px rgba(139, 0, 0, 0.5)'
+      letterSpacing: '1px',
+      fontFamily: '"Inter", sans-serif',
+      boxShadow: '0 4px 15px rgba(220, 38, 38, 0.3)',
+      margin: '12px 0',
+      border: '2px solid #fecaca',
+      position: 'relative',
+      overflow: 'hidden',
+      '::before': {
+        content: '"🔴"',
+        marginRight: '8px'
+      }
     },
     contacto: { 
-      marginTop: 12, 
-      fontSize: 14, 
-      background: 'rgba(26, 26, 26, 0.9)', 
-      borderRadius: 8, 
-      padding: 12,
-      border: '1px solid rgba(74, 124, 89, 0.3)',
-      color: '#e0e0e0',
-      fontFamily: '"Roboto Mono", monospace'
+      background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%)',
+      borderRadius: 12, 
+      padding: 16,
+      marginTop: 12,
+      border: '2px solid rgba(5, 150, 105, 0.2)',
+      color: '#1f2937',
+      fontSize: 14,
+      fontFamily: '"Inter", sans-serif',
+      boxShadow: '0 2px 8px rgba(5, 150, 105, 0.1)',
+      position: 'relative',
+      '::before': {
+        content: '"📞"',
+        position: 'absolute',
+        top: '12px',
+        right: '12px',
+        fontSize: '16px'
+      }
     },
     detalles: { 
       fontSize: 13, 
-      background: 'rgba(15, 15, 15, 0.9)', 
-      borderRadius: 8, 
+      background: 'rgba(0, 0, 0, 0.05)', 
+      borderRadius: 12, 
       padding: 12, 
-      marginTop: 8,
-      border: '1px solid rgba(74, 124, 89, 0.2)',
-      color: '#c0c0c0',
-      fontFamily: '"Roboto Mono", monospace'
+      marginTop: 12,
+      border: '1px solid rgba(0, 0, 0, 0.1)',
+      color: '#6b7280',
+      fontFamily: '"Inter", sans-serif'
     }
   };
 
@@ -325,28 +391,64 @@ function Listado() {
 
   const fetchArmas = async () => {
     setLoading(true);
-    let query = supabase
-      .from('armas')
-      .select('*')
-      .in('estado_publicacion', ['PUBLICADA_SIN_CONTACTO', 'PUBLICADA_CON_CONTACTO', 'VENDIDA']);
-    if (filtros.tipo_arma) query = query.eq('tipo_arma', filtros.tipo_arma);
-    if (filtros.marca) query = query.ilike('marca', `%${filtros.marca}%`);
-    if (filtros.calibre) query = query.ilike('calibre', `%${filtros.calibre}%`);
-    if (filtros.estado_arma) query = query.eq('estado_arma', filtros.estado_arma);
-    if (filtros.empadronamiento) query = query.eq('empadronamiento', filtros.empadronamiento);
-    if (filtros.busqueda) {
-      // Búsqueda insensible a mayúsculas/minúsculas en nombre y marca
-      query = query.or(`nombre.ilike.%${filtros.busqueda}%,marca.ilike.%${filtros.busqueda}%,modelo.ilike.%${filtros.busqueda}%`);
+    
+    // Use mock data for development when Supabase is not available
+    try {
+      let query = supabase
+        .from('armas')
+        .select('*')
+        .in('estado_publicacion', ['PUBLICADA_SIN_CONTACTO', 'PUBLICADA_CON_CONTACTO', 'VENDIDA']);
+      if (filtros.tipo_arma) query = query.eq('tipo_arma', filtros.tipo_arma);
+      if (filtros.marca) query = query.ilike('marca', `%${filtros.marca}%`);
+      if (filtros.calibre) query = query.ilike('calibre', `%${filtros.calibre}%`);
+      if (filtros.estado_arma) query = query.eq('estado_arma', filtros.estado_arma);
+      if (filtros.empadronamiento) query = query.eq('empadronamiento', filtros.empadronamiento);
+      if (filtros.busqueda) {
+        // Búsqueda insensible a mayúsculas/minúsculas en nombre y marca
+        query = query.or(`nombre.ilike.%${filtros.busqueda}%,marca.ilike.%${filtros.busqueda}%,modelo.ilike.%${filtros.busqueda}%`);
+      }
+      // Lógica de ordenamiento
+      if (filtros.precio_orden === 'asc' || filtros.precio_orden === 'desc') {
+        query = query.order('precio_venta', { ascending: filtros.precio_orden === 'asc' });
+      } else if (filtros.precio_orden === 'recientes' || !filtros.precio_orden) {
+        query = query.order('fecha_creacion', { ascending: false });
+      }
+      const { data, error } = await query;
+      if (error) throw error;
+      setArmas(data);
+    } catch (error) {
+      console.log('Using mock data due to connection error:', error.message);
+      // Apply filters to mock data
+      let filteredData = mockArmas.filter(arma => 
+        ['PUBLICADA_SIN_CONTACTO', 'PUBLICADA_CON_CONTACTO', 'VENDIDA'].includes(arma.estado_publicacion)
+      );
+      
+      if (filtros.tipo_arma) filteredData = filteredData.filter(arma => arma.tipo_arma === filtros.tipo_arma);
+      if (filtros.marca) filteredData = filteredData.filter(arma => arma.marca.toLowerCase().includes(filtros.marca.toLowerCase()));
+      if (filtros.calibre) filteredData = filteredData.filter(arma => arma.calibre.toLowerCase().includes(filtros.calibre.toLowerCase()));
+      if (filtros.estado_arma) filteredData = filteredData.filter(arma => arma.estado_arma === filtros.estado_arma);
+      if (filtros.empadronamiento) filteredData = filteredData.filter(arma => arma.empadronamiento === filtros.empadronamiento);
+      if (filtros.busqueda) {
+        const search = filtros.busqueda.toLowerCase();
+        filteredData = filteredData.filter(arma => 
+          arma.nombre.toLowerCase().includes(search) ||
+          arma.marca.toLowerCase().includes(search) ||
+          arma.modelo.toLowerCase().includes(search)
+        );
+      }
+      
+      // Apply sorting
+      if (filtros.precio_orden === 'asc') {
+        filteredData.sort((a, b) => a.precio_venta - b.precio_venta);
+      } else if (filtros.precio_orden === 'desc') {
+        filteredData.sort((a, b) => b.precio_venta - a.precio_venta);
+      } else {
+        filteredData.sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+      }
+      
+      setArmas(filteredData);
+      setError('');
     }
-    // Lógica de ordenamiento
-    if (filtros.precio_orden === 'asc' || filtros.precio_orden === 'desc') {
-      query = query.order('precio_venta', { ascending: filtros.precio_orden === 'asc' });
-    } else if (filtros.precio_orden === 'recientes' || !filtros.precio_orden) {
-      query = query.order('fecha_creacion', { ascending: false });
-    }
-    const { data, error } = await query;
-    if (error) setError(error.message);
-    else setArmas(data);
     setLoading(false);
   };
 
@@ -429,125 +531,176 @@ function Listado() {
           </div>
           {loading && <p>Cargando armas...</p>}
           {error && <p style={{color:'red'}}>{error}</p>}
-          <div style={{...styles.grid, padding:'0 0px'}}>
-            {armas.map(arma => (
-              <div 
-                key={arma.id} 
-                style={styles.card(arma)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = arma.destacado 
-                    ? '0 20px 50px rgba(79, 172, 254, 0.4), 0 12px 20px rgba(0, 0, 0, 0.15)' 
-                    : '0 12px 40px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = arma.destacado 
-                    ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
-                    : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)';
-                }}
-              >
-                {arma.destacado && (
-                  <div style={styles.destacado}>★ DESTACADO</div>
-                )}
-                {arma.fotos && arma.fotos.length > 0 && (
-                  <img src={arma.fotos[0]} alt="foto" style={typeof window !== 'undefined' && window.innerWidth <= 700 ? styles.imgMobile : styles.img} />
-                )}
-                <div style={{
-                  padding: typeof window !== 'undefined' && window.innerWidth <= 700 ? '8px 8px 8px 10px' : '0 16px 10px 16px',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                  minWidth: typeof window !== 'undefined' && window.innerWidth <= 700 ? 0 : undefined,
-                  maxWidth: typeof window !== 'undefined' && window.innerWidth <= 700 ? '100%' : undefined,
-                  overflow: typeof window !== 'undefined' && window.innerWidth <= 700 ? 'hidden' : undefined,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  height: typeof window !== 'undefined' && window.innerWidth <= 700 ? '100%' : undefined,
-                  alignItems: typeof window !== 'undefined' && window.innerWidth <= 700 ? 'flex-start' : undefined,
-                }}>
-                  <div style={{
-                    fontWeight: 700,
-                    fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 15 : 20,
-                    margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '0 0 2px 0' : '12px 0 2px 0',
-                    color: '#1a1a2e',
-                    textAlign: 'left',
-                    letterSpacing: 1,
-                    maxWidth: '100%',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                  }}>
-                    {arma.marca} {arma.modelo}
-                  </div>
-                  <div style={{
-                    marginBottom: typeof window !== 'undefined' && window.innerWidth <= 700 ? 2 : 6,
-                    textAlign: 'left',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 4,
-                  }}>
-                    <span style={{...styles.chip(chipColor(arma.tipo_arma)), fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 13}}>{arma.tipo_arma}</span>
-                    <span style={{...styles.chip('#1976d2'), fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 13}}>{arma.calibre}</span>
-                    <span style={{...styles.chip(estadoColor(arma.estado_arma)), fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 13}}>{arma.estado_arma}</span>
-                  </div>
-                  <div style={{
-                    ...styles.precio,
-                    textAlign: 'left',
-                    fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 14 : 20,
-                    margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '2px 0 0 0' : '8px 0 0 0',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}>{arma.moneda === 'USD' ? 'US$' : '$'} {arma.precio_venta} {arma.moneda === 'USD' ? 'Dólares' : 'Pesos AR'}</div>
-                  <div style={{
-                    margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '2px 0 2px 0' : '2px 0 6px 0',
-                    color: '#90caf9',
-                    fontWeight: 600,
-                    textAlign: 'left',
-                    fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 12 : 14,
-                  }}>{arma.ciudad && arma.provincia ? `${arma.ciudad}, ${arma.provincia}` : ''}</div>
-                  <div style={{fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 14, color: '#fff', marginBottom: typeof window !== 'undefined' && window.innerWidth <= 700 ? 2 : 6, maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{arma.comentarios}</div>
-                  {arma.estado_publicacion === 'VENDIDA' && (
-                    <div style={{...styles.vendido, fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 13 : 18, margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '2px 0' : '8px 0 0 0'}}>VENDIDO</div>
-                  )}
-                  {arma.estado_publicacion === 'PUBLICADA_CON_CONTACTO' && (
-                    <div style={{...styles.contacto, fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 14, padding: typeof window !== 'undefined' && window.innerWidth <= 700 ? 4 : 8, margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '2px 0' : 8}}>
-                      <b>CONTACTAR</b><br/>
-                      {arma.nombre}<br/>
-                      {arma.telefono}<br/>
-                      {arma.email}<br/>
-                      {arma.ciudad}, {arma.provincia}, {arma.pais}
+          <div style={{...styles.grid, padding:'0 20px'}}>
+            {armas.map(arma => {
+              const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
+              return (
+                <div 
+                  key={arma.id} 
+                  style={styles.card(arma)}
+                  onMouseEnter={(e) => {
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
+                      e.currentTarget.style.boxShadow = arma.destacado 
+                        ? '0 25px 70px rgba(255, 215, 0, 0.4), 0 10px 30px rgba(0, 0, 0, 0.2)' 
+                        : '0 15px 50px rgba(0, 0, 0, 0.15), 0 6px 20px rgba(0, 0, 0, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isMobile) {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                      e.currentTarget.style.boxShadow = arma.destacado 
+                        ? '0 20px 60px rgba(255, 215, 0, 0.3), 0 8px 25px rgba(0, 0, 0, 0.15)' 
+                        : '0 10px 40px rgba(0, 0, 0, 0.12), 0 4px 15px rgba(0, 0, 0, 0.08)';
+                    }
+                  }}
+                >
+                  {arma.destacado && (
+                    <div style={styles.destacado}>
+                      <span>⭐</span>
+                      DESTACADO
                     </div>
                   )}
-                  {arma.estado_publicacion === 'PUBLICADA_SIN_CONTACTO' && (
-                    <div style={{...styles.contacto, color:'#ffc107', fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 11 : 14, padding: typeof window !== 'undefined' && window.innerWidth <= 700 ? 4 : 8, margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '2px 0' : 8}}>Contacto visible tras pago</div>
+                  
+                  {arma.fotos && arma.fotos.length > 0 && (
+                    <img 
+                      src={arma.fotos[0]} 
+                      alt="foto" 
+                      style={isMobile ? styles.imgMobile : styles.img}
+                      onError={(e) => {
+                        e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xMDAgNzVMMTI1IDEwMEwxMDAgMTI1TDc1IDEwMEwxMDAgNzVaIiBmaWxsPSIjOUI5QjlCIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNkI3MjgwIiBmb250LXNpemU9IjE0Ij5TaW4gZm90bzwvdGV4dD4KPC9zdmc+';
+                      }}
+                    />
                   )}
+                  
                   <div style={{
+                    padding: isMobile ? '16px' : '24px',
+                    flex: 1,
                     display: 'flex',
-                    gap: 8,
-                    marginTop: typeof window !== 'undefined' && window.innerWidth <= 700 ? 6 : 10,
-                    width: '100%',
-                    justifyContent: typeof window !== 'undefined' && window.innerWidth <= 700 ? 'flex-end' : 'flex-start',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    gap: 12
                   }}>
-                    <button style={{
-                      ...styles.btnDetalles,
-                      fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 13 : 15,
-                      padding: typeof window !== 'undefined' && window.innerWidth <= 700 ? '8px 14px' : '8px 18px',
-                      minWidth: 80,
-                      margin: 0,
-                      borderRadius: 8,
-                      fontWeight: 700,
-                      background: '#ffc107',
-                      color: '#223a5e',
-                      border: 'none',
-                      boxShadow: typeof window !== 'undefined' && window.innerWidth <= 700 ? '0 2px 8px #0002' : undefined,
-                    }} onClick={() => navigate(`/arma/${arma.id}`)}>VER DETALLES</button>
+                    <div>
+                      <div style={{
+                        ...styles.nome,
+                        fontSize: isMobile ? 18 : 22,
+                        marginTop: arma.destacado && !isMobile ? 40 : 0
+                      }}>
+                        {arma.marca} {arma.modelo}
+                      </div>
+                      
+                      <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 6,
+                        marginBottom: 12
+                      }}>
+                        <span style={{...styles.chip(chipColor(arma.tipo_arma)), fontSize: isMobile ? 10 : 12}}>
+                          {arma.tipo_arma}
+                        </span>
+                        <span style={{...styles.chip('#3b82f6'), fontSize: isMobile ? 10 : 12}}>
+                          {arma.calibre}
+                        </span>
+                        <span style={{...styles.chip(estadoColor(arma.estado_arma)), fontSize: isMobile ? 10 : 12}}>
+                          {arma.estado_arma}
+                        </span>
+                      </div>
+                      
+                      <div style={{
+                        ...styles.precio,
+                        fontSize: isMobile ? 20 : 28
+                      }}>
+                        {arma.moneda === 'USD' ? 'US$' : '$'} {arma.precio_venta?.toLocaleString()} 
+                        <span style={{fontSize: '16px', color: '#6b7280', fontWeight: 500}}>
+                          {arma.moneda === 'USD' ? 'USD' : 'ARS'}
+                        </span>
+                      </div>
+                      
+                      <div style={{
+                        color: '#6b7280',
+                        fontSize: isMobile ? 13 : 14,
+                        fontWeight: 500,
+                        marginBottom: 8,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4
+                      }}>
+                        📍 {arma.ciudad && arma.provincia ? `${arma.ciudad}, ${arma.provincia}` : 'Ubicación no especificada'}
+                      </div>
+                      
+                      <div style={{
+                        fontSize: isMobile ? 13 : 14, 
+                        color: '#4b5563', 
+                        lineHeight: 1.5,
+                        marginBottom: 12,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {arma.comentarios || 'Sin descripción disponible'}
+                      </div>
+                    </div>
+                    
+                    {arma.estado_publicacion === 'VENDIDA' && (
+                      <div style={{
+                        ...styles.vendido,
+                        fontSize: isMobile ? 14 : 16
+                      }}>
+                        🔴 VENDIDO
+                      </div>
+                    )}
+                    
+                    {arma.estado_publicacion === 'PUBLICADA_CON_CONTACTO' && (
+                      <div style={{
+                        ...styles.contacto,
+                        fontSize: isMobile ? 12 : 14
+                      }}>
+                        <div style={{fontWeight: 700, marginBottom: 8}}>📞 CONTACTAR VENDEDOR</div>
+                        <div style={{fontSize: 12, color: '#6b7280'}}>
+                          Tel: {arma.telefono}<br/>
+                          Email: {arma.email}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {arma.estado_publicacion === 'PUBLICADA_SIN_CONTACTO' && (
+                      <div style={{
+                        ...styles.contacto,
+                        background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%)',
+                        border: '2px solid rgba(255, 215, 0, 0.3)',
+                        color: '#92400e',
+                        textAlign: 'center',
+                        fontSize: isMobile ? 12 : 14,
+                        fontWeight: 600
+                      }}>
+                        🔒 Contacto disponible tras verificación
+                      </div>
+                    )}
+                    
+                    <button 
+                      style={{
+                        ...styles.btnDetalles,
+                        fontSize: isMobile ? 13 : 15,
+                        padding: isMobile ? '12px 20px' : '14px 28px'
+                      }} 
+                      onClick={() => navigate(`/arma/${arma.id}`)}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 8px 25px rgba(255, 215, 0, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 15px rgba(255, 215, 0, 0.3)';
+                      }}
+                    >
+                      Ver Detalles Completos
+                    </button>
                   </div>
-                  {/* Bloque 'Ver más' eliminado por pedido del usuario */}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
