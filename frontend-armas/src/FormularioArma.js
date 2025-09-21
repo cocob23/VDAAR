@@ -189,6 +189,12 @@ function FormularioArma() {
 			transition: 'all 0.3s ease',
 			color: '#1a1a2e'
 		},
+		'input:focus': {
+			outline: 'none',
+			borderColor: '#4facfe',
+			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
+			background: 'rgba(255, 255, 255, 1)'
+		},
 		select: { 
 			border: '2px solid rgba(102, 126, 234, 0.2)', 
 			borderRadius: 12, 
@@ -206,6 +212,12 @@ function FormularioArma() {
 			transition: 'all 0.3s ease',
 			color: '#1a1a2e',
 			cursor: 'pointer'
+		},
+		'select:focus': {
+			outline: 'none',
+			borderColor: '#4facfe',
+			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
+			background: 'rgba(255, 255, 255, 1)'
 		},
 		radioGroup: { display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap' },
 		radioBtn: checked => ({ 
@@ -284,7 +296,17 @@ function FormularioArma() {
 			letterSpacing: '1px',
 			textTransform: 'uppercase',
 			boxShadow: '0 8px 25px rgba(79, 172, 254, 0.4)',
-			transition: 'all 0.3s ease'
+			transition: 'all 0.3s ease',
+			position: 'relative',
+			overflow: 'hidden'
+		},
+		'btn:hover': {
+			transform: 'translateY(-2px)',
+			boxShadow: '0 12px 35px rgba(79, 172, 254, 0.5)'
+		},
+		'btn:active': {
+			transform: 'translateY(0)',
+			boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)'
 		},
 		previewImg: { 
 			borderRadius: 12, 
@@ -384,7 +406,25 @@ function FormularioArma() {
 							</div>
 							<label style={styles.label}>COMENTARIOS Y DETALLES</label>
 							<textarea style={styles.textarea} name="comentarios" placeholder="Incluya detalles importantes, estado, etc." value={campos.comentarios} onChange={handleChange} />
-							<button type="submit" style={styles.btn} disabled={cargando}>{cargando ? 'Enviando...' : 'ENVIAR'}</button>
+							<button 
+								type="submit" 
+								style={styles.btn} 
+								disabled={cargando}
+								onMouseEnter={(e) => {
+									if (!cargando) {
+										e.target.style.transform = 'translateY(-2px)';
+										e.target.style.boxShadow = '0 12px 35px rgba(79, 172, 254, 0.5)';
+									}
+								}}
+								onMouseLeave={(e) => {
+									if (!cargando) {
+										e.target.style.transform = 'translateY(0)';
+										e.target.style.boxShadow = '0 8px 25px rgba(79, 172, 254, 0.4)';
+									}
+								}}
+							>
+								{cargando ? 'Enviando...' : 'ENVIAR'}
+							</button>
 							{mensaje && <div style={styles.mensaje}>{mensaje}</div>}
 						</div>
 					</form>

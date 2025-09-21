@@ -73,6 +73,11 @@ function Listado() {
       backdropFilter: 'blur(10px)',
       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
     },
+    'input:focus': {
+      outline: 'none',
+      borderColor: '#4facfe',
+      boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)'
+    },
     select: { 
       border: '2px solid rgba(255, 255, 255, 0.1)', 
       borderRadius: 12, 
@@ -87,6 +92,11 @@ function Listado() {
       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
       cursor: 'pointer'
     },
+    'select:focus': {
+      outline: 'none',
+      borderColor: '#4facfe',
+      boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)'
+    },
     btnBorrar: { 
       background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)', 
       color: '#fff', 
@@ -100,7 +110,13 @@ function Listado() {
       transition: 'all 0.3s ease',
       boxShadow: '0 4px 15px rgba(238, 90, 36, 0.3)',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px'
+      letterSpacing: '0.5px',
+      position: 'relative',
+      overflow: 'hidden'
+    },
+    'btnBorrar:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 8px 25px rgba(238, 90, 36, 0.4)'
     },
 
     grid: {
@@ -401,7 +417,21 @@ function Listado() {
               <option value="asc">Precio: menor a mayor</option>
               <option value="desc">Precio: mayor a menor</option>
             </select>
-            <button type="button" onClick={() => setFiltros(FILTROS_INICIALES)} style={styles.btnBorrar}>Borrar filtros</button>
+            <button 
+              type="button" 
+              onClick={() => setFiltros(FILTROS_INICIALES)} 
+              style={styles.btnBorrar}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 8px 25px rgba(238, 90, 36, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 4px 15px rgba(238, 90, 36, 0.3)';
+              }}
+            >
+              Borrar filtros
+            </button>
           </div>
           {loading && <p>Cargando armas...</p>}
           {error && <p style={{color:'red'}}>{error}</p>}
