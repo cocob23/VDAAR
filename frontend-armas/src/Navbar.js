@@ -2,12 +2,13 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-// Estilos globales para fondo y fuente
+// Estilos globales para fondo militar oscuro
 if (typeof document !== 'undefined') {
-  document.body.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
+  document.body.style.background = 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a2a1a 75%, #0a1a0a 100%)';
   document.body.style.minHeight = '100vh';
-  document.body.style.fontFamily = 'Inter, Segoe UI, Roboto, Arial, Helvetica, sans-serif';
+  document.body.style.fontFamily = '"Roboto Mono", "Courier New", monospace';
   document.body.style.margin = 0;
+  document.body.style.backgroundAttachment = 'fixed';
 }
 
 function Navbar() {

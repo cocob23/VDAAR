@@ -100,50 +100,68 @@ function FormularioArma() {
 		setCargando(false);
 	};
 
-	// --- ESTILOS ---
+	// --- ESTILOS MILITAR OSCURO ---
 	const styles = {
-		page: { width: '100vw', minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', color: '#1a1a2e', fontFamily: 'Inter, Segoe UI, Roboto, Arial, Helvetica, sans-serif', padding: 0, margin: 0, boxSizing: 'border-box', position: 'relative', overflowX: 'hidden', paddingBottom: 48 },
+		page: { 
+			width: '100vw', 
+			minHeight: '100vh', 
+			background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2a2a2a 50%, #1a2a1a 75%, #0a1a0a 100%)', 
+			color: '#e0e0e0', 
+			fontFamily: '"Roboto Mono", "Courier New", monospace', 
+			padding: 0, 
+			margin: 0, 
+			boxSizing: 'border-box', 
+			position: 'relative', 
+			overflowX: 'hidden', 
+			paddingBottom: 48,
+			backgroundAttachment: 'fixed'
+		},
 		container: { maxWidth: 1200, margin: '100px auto 0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' },
-		// btnVolver eliminado
 		titulo: { 
-			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-			WebkitBackgroundClip: 'text',
-			WebkitTextFillColor: 'transparent',
-			backgroundClip: 'text',
-			fontWeight: 800, 
-			fontSize: 36, 
+			color: '#4a7c59',
+			textShadow: '0 0 10px rgba(74, 124, 89, 0.5), 0 0 20px rgba(74, 124, 89, 0.3), 0 0 30px rgba(74, 124, 89, 0.1)',
+			fontWeight: 900, 
+			fontSize: 40, 
 			textAlign: 'center', 
 			margin: '0px 0 18px 0', 
-			letterSpacing: '2px', 
-			textTransform: 'uppercase'
+			letterSpacing: '3px', 
+			textTransform: 'uppercase',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		subtitulo: { 
-			color: '#64748b', 
-			fontWeight: 500, 
+			color: '#a0a0a0', 
+			fontWeight: 400, 
 			fontSize: 18, 
 			textAlign: 'center', 
 			marginBottom: 32,
-			letterSpacing: '0.5px'
+			letterSpacing: '1px',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		form: { width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 },
-			cardsRow: { display: 'flex', flexDirection: 'row', gap: 32, width: '100%', justifyContent: 'center', flexWrap: 'wrap',
-				'@media (max-width: 700px)': {
-					flexDirection: 'column',
-					gap: 16,
-					alignItems: 'center',
-				}
-			},
-			card: { 
-			background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)', 
-			backdropFilter: 'blur(20px)',
-			border: '1px solid rgba(255, 255, 255, 0.2)', 
-			borderRadius: 24, 
-			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)', 
+		cardsRow: { 
+			display: 'flex', 
+			flexDirection: 'row', 
+			gap: 32, 
+			width: '100%', 
+			justifyContent: 'center', 
+			flexWrap: 'wrap',
+			'@media (max-width: 700px)': {
+				flexDirection: 'column',
+				gap: 16,
+				alignItems: 'center',
+			}
+		},
+		card: { 
+			background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 50%, rgba(15, 15, 15, 0.95) 100%)', 
+			backdropFilter: 'blur(10px)',
+			border: '2px solid rgba(74, 124, 89, 0.3)', 
+			borderRadius: 16, 
+			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(74, 124, 89, 0.1)', 
 			padding: 32, 
 			minWidth: 280, 
 			maxWidth: 400, 
 			flex: 1, 
-			color: '#1a1a2e', 
+			color: '#e0e0e0', 
 			display: 'flex', 
 			flexDirection: 'column', 
 			gap: 20, 
@@ -151,30 +169,30 @@ function FormularioArma() {
 			transition: 'all 0.3s ease'
 		},
 		cardTitle: { 
-			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-			WebkitBackgroundClip: 'text',
-			WebkitTextFillColor: 'transparent',
-			backgroundClip: 'text',
+			color: '#4a7c59',
+			textShadow: '0 0 8px rgba(74, 124, 89, 0.6)',
 			fontWeight: 800, 
 			fontSize: 20, 
 			marginBottom: 12, 
 			display: 'flex', 
 			alignItems: 'center', 
 			gap: 8, 
-			letterSpacing: '1px',
-			textTransform: 'uppercase'
+			letterSpacing: '2px',
+			textTransform: 'uppercase',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		label: { 
 			fontWeight: 600, 
 			marginBottom: 2, 
-			color: '#1a1a2e', 
+			color: '#c0c0c0', 
 			fontSize: 14,
 			textTransform: 'uppercase',
-			letterSpacing: '0.5px'
+			letterSpacing: '1px',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		input: { 
-			border: '2px solid rgba(102, 126, 234, 0.2)', 
-			borderRadius: 12, 
+			border: '2px solid rgba(74, 124, 89, 0.4)', 
+			borderRadius: 8, 
 			padding: '12px 16px', 
 			fontSize: 15, 
 			marginBottom: 18, 
@@ -185,19 +203,14 @@ function FormularioArma() {
 			display: 'block', 
 			marginLeft: 'auto', 
 			marginRight: 'auto',
-			background: 'rgba(255, 255, 255, 0.8)',
+			background: 'rgba(15, 15, 15, 0.9)',
 			transition: 'all 0.3s ease',
-			color: '#1a1a2e'
-		},
-		'input:focus': {
-			outline: 'none',
-			borderColor: '#4facfe',
-			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
-			background: 'rgba(255, 255, 255, 1)'
+			color: '#e0e0e0',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		select: { 
-			border: '2px solid rgba(102, 126, 234, 0.2)', 
-			borderRadius: 12, 
+			border: '2px solid rgba(74, 124, 89, 0.4)', 
+			borderRadius: 8, 
 			padding: '12px 16px', 
 			fontSize: 15, 
 			marginBottom: 18, 
@@ -208,25 +221,20 @@ function FormularioArma() {
 			display: 'block', 
 			marginLeft: 'auto', 
 			marginRight: 'auto',
-			background: 'rgba(255, 255, 255, 0.8)',
+			background: 'rgba(15, 15, 15, 0.9)',
 			transition: 'all 0.3s ease',
-			color: '#1a1a2e',
-			cursor: 'pointer'
-		},
-		'select:focus': {
-			outline: 'none',
-			borderColor: '#4facfe',
-			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
-			background: 'rgba(255, 255, 255, 1)'
+			color: '#e0e0e0',
+			cursor: 'pointer',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		radioGroup: { display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap' },
 		radioBtn: checked => ({ 
 			background: checked 
-				? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
-				: 'rgba(255, 255, 255, 0.8)', 
-			color: checked ? '#fff' : '#1a1a2e', 
-			border: `2px solid ${checked ? 'transparent' : 'rgba(102, 126, 234, 0.3)'}`, 
-			borderRadius: 12, 
+				? 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)' 
+				: 'rgba(26, 26, 26, 0.8)', 
+			color: checked ? '#fff' : '#c0c0c0', 
+			border: `2px solid ${checked ? '#4a7c59' : 'rgba(74, 124, 89, 0.3)'}`, 
+			borderRadius: 8, 
 			padding: '10px 20px', 
 			fontWeight: 700, 
 			cursor: 'pointer', 
@@ -234,12 +242,13 @@ function FormularioArma() {
 			outline: 'none',
 			transition: 'all 0.3s ease',
 			textTransform: 'uppercase',
-			letterSpacing: '0.5px',
-			boxShadow: checked ? '0 4px 15px rgba(102, 126, 234, 0.3)' : 'none'
+			letterSpacing: '1px',
+			boxShadow: checked ? '0 0 10px rgba(74, 124, 89, 0.5)' : 'none',
+			fontFamily: '"Roboto Mono", monospace'
 		}),
 		textarea: { 
-			border: '2px solid rgba(102, 126, 234, 0.2)', 
-			borderRadius: 12, 
+			border: '2px solid rgba(74, 124, 89, 0.4)', 
+			borderRadius: 8, 
 			padding: '16px', 
 			fontSize: 15, 
 			marginBottom: 8, 
@@ -252,82 +261,75 @@ function FormularioArma() {
 			marginLeft: 'auto', 
 			marginRight: 'auto', 
 			resize: 'vertical',
-			background: 'rgba(255, 255, 255, 0.8)',
+			background: 'rgba(15, 15, 15, 0.9)',
 			transition: 'all 0.3s ease',
-			color: '#1a1a2e',
-			fontFamily: 'inherit'
+			color: '#e0e0e0',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		imgCard: { 
-			background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)', 
-			backdropFilter: 'blur(20px)',
-			border: '1px solid rgba(255, 255, 255, 0.2)', 
-			borderRadius: 24, 
-			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)', 
+			background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 50%, rgba(15, 15, 15, 0.95) 100%)', 
+			backdropFilter: 'blur(10px)',
+			border: '2px solid rgba(74, 124, 89, 0.3)', 
+			borderRadius: 16, 
+			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(74, 124, 89, 0.1)', 
 			padding: 32, 
-			color: '#1a1a2e', 
+			color: '#e0e0e0', 
 			marginTop: 32, 
 			width: '100%', 
 			maxWidth: 1150
 		},
 		imgTitle: { 
-			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-			WebkitBackgroundClip: 'text',
-			WebkitTextFillColor: 'transparent',
-			backgroundClip: 'text',
+			color: '#4a7c59',
+			textShadow: '0 0 8px rgba(74, 124, 89, 0.6)',
 			fontWeight: 800, 
 			fontSize: 20, 
 			marginBottom: 12, 
 			display: 'flex', 
 			alignItems: 'center', 
 			gap: 8, 
-			letterSpacing: '1px',
-			textTransform: 'uppercase'
+			letterSpacing: '2px',
+			textTransform: 'uppercase',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		btn: { 
-			background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
-			color: '#1a1a2e', 
-			border: 'none', 
-			borderRadius: 12, 
+			background: 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)', 
+			color: '#fff', 
+			border: '2px solid #4a7c59', 
+			borderRadius: 8, 
 			padding: '16px 48px', 
 			fontWeight: 800, 
 			fontSize: 18, 
 			marginTop: 18, 
 			cursor: 'pointer', 
-			letterSpacing: '1px',
+			letterSpacing: '2px',
 			textTransform: 'uppercase',
-			boxShadow: '0 8px 25px rgba(79, 172, 254, 0.4)',
+			boxShadow: '0 0 20px rgba(74, 124, 89, 0.4), 0 8px 15px rgba(0, 0, 0, 0.3)',
 			transition: 'all 0.3s ease',
 			position: 'relative',
-			overflow: 'hidden'
-		},
-		'btn:hover': {
-			transform: 'translateY(-2px)',
-			boxShadow: '0 12px 35px rgba(79, 172, 254, 0.5)'
-		},
-		'btn:active': {
-			transform: 'translateY(0)',
-			boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)'
+			overflow: 'hidden',
+			fontFamily: '"Roboto Mono", monospace'
 		},
 		previewImg: { 
-			borderRadius: 12, 
-			border: '2px solid rgba(102, 126, 234, 0.3)', 
+			borderRadius: 8, 
+			border: '2px solid rgba(74, 124, 89, 0.5)', 
 			margin: 2, 
 			width: 80, 
 			height: 60, 
 			objectFit: 'cover', 
-			background: '#fff',
-			boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+			background: '#1a1a1a',
+			boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)'
 		},
 		mensaje: { 
 			marginTop: 18, 
 			fontWeight: 600, 
 			fontSize: 17, 
-			color: '#1a1a2e', 
+			color: '#e0e0e0', 
 			textAlign: 'center',
 			padding: '16px',
-			borderRadius: 12,
-			background: 'rgba(79, 172, 254, 0.1)',
-			border: '1px solid rgba(79, 172, 254, 0.2)'
+			borderRadius: 8,
+			background: 'rgba(74, 124, 89, 0.2)',
+			border: '1px solid rgba(74, 124, 89, 0.4)',
+			fontFamily: '"Roboto Mono", monospace'
 		}
 	};
 
