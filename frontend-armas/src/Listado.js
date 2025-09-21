@@ -23,34 +23,32 @@ function Listado() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // --- ESTILOS CSS-IN-JS ---
+  // --- ESTILOS MILITAR OSCURO ---
   const styles = {
     container: { width: '100vw', maxWidth: '100vw', margin: 0, padding: 0 },
     titulo: { 
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text',
-      fontWeight: 800, 
+      color: '#4a7c59',
+      textShadow: '0 0 15px rgba(74, 124, 89, 0.6), 0 0 30px rgba(74, 124, 89, 0.4)',
+      fontWeight: 900, 
       fontSize: 42, 
       textAlign: 'center', 
       margin: '48px 0 32px 0', 
-      letterSpacing: '2px', 
+      letterSpacing: '3px', 
       textTransform: 'uppercase',
-      textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+      fontFamily: '"Roboto Mono", monospace'
     },
     filtros: {
-      background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%)',
-      backdropFilter: 'blur(20px)',
-      borderRadius: 24,
+      background: 'linear-gradient(135deg, rgba(15, 15, 15, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
+      backdropFilter: 'blur(10px)',
+      borderRadius: 16,
       padding: 24,
       display: 'flex',
       gap: 16,
       flexWrap: 'wrap',
       alignItems: 'center',
       marginBottom: 32,
-      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+      border: '2px solid rgba(74, 124, 89, 0.3)',
       width: 'calc(100vw - 80px)',
       minWidth: 'calc(100vw - 80px)',
       position: 'relative',
@@ -61,56 +59,45 @@ function Listado() {
       marginRight: 0
     },
     input: { 
-      border: '2px solid rgba(255, 255, 255, 0.1)', 
-      borderRadius: 12, 
+      border: '2px solid rgba(74, 124, 89, 0.4)', 
+      borderRadius: 8, 
       padding: '12px 16px', 
       fontSize: 15, 
       minWidth: 140,
-      background: 'rgba(255, 255, 255, 0.95)',
-      color: '#1a1a2e',
+      background: 'rgba(15, 15, 15, 0.9)',
+      color: '#e0e0e0',
       fontWeight: 500,
       transition: 'all 0.3s ease',
-      backdropFilter: 'blur(10px)',
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
-    },
-    'input:focus': {
-      outline: 'none',
-      borderColor: '#4facfe',
-      boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)'
+      fontFamily: '"Roboto Mono", monospace'
     },
     select: { 
-      border: '2px solid rgba(255, 255, 255, 0.1)', 
-      borderRadius: 12, 
+      border: '2px solid rgba(74, 124, 89, 0.4)', 
+      borderRadius: 8, 
       padding: '12px 16px', 
       fontSize: 15, 
       minWidth: 140,
-      background: 'rgba(255, 255, 255, 0.95)',
-      color: '#1a1a2e',
+      background: 'rgba(15, 15, 15, 0.9)',
+      color: '#e0e0e0',
       fontWeight: 500,
       transition: 'all 0.3s ease',
-      backdropFilter: 'blur(10px)',
-      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+      fontFamily: '"Roboto Mono", monospace',
       cursor: 'pointer'
     },
-    'select:focus': {
-      outline: 'none',
-      borderColor: '#4facfe',
-      boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)'
-    },
     btnBorrar: { 
-      background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)', 
+      background: 'linear-gradient(135deg, #8b0000 0%, #660000 100%)', 
       color: '#fff', 
-      border: 'none', 
-      borderRadius: 12, 
+      border: '2px solid #8b0000', 
+      borderRadius: 8, 
       padding: '12px 24px', 
       fontWeight: 600, 
       cursor: 'pointer', 
       marginLeft: 12,
       fontSize: 15,
       transition: 'all 0.3s ease',
-      boxShadow: '0 4px 15px rgba(238, 90, 36, 0.3)',
+      boxShadow: '0 0 15px rgba(139, 0, 0, 0.4)',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px',
+      letterSpacing: '1px',
+      fontFamily: '"Roboto Mono", monospace',
       position: 'relative',
       overflow: 'hidden'
     },
@@ -144,17 +131,17 @@ function Listado() {
       const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
       if (!isMobile) {
         return {
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: 24,
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
-          backdropFilter: 'blur(20px)',
-          color: '#1a1a2e',
+          border: '2px solid rgba(74, 124, 89, 0.3)',
+          borderRadius: 16,
+          background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
+          backdropFilter: 'blur(10px)',
+          color: '#e0e0e0',
           padding: 0,
           width: 320,
           maxWidth: '98vw',
           boxShadow: arma.destacado 
-            ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
-            : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
+            ? '0 0 30px rgba(74, 124, 89, 0.6), 0 16px 40px rgba(0, 0, 0, 0.4)' 
+            : '0 8px 32px rgba(0, 0, 0, 0.6)',
           position: 'relative',
           overflow: 'hidden',
           marginBottom: 16,
@@ -162,22 +149,23 @@ function Listado() {
           flexDirection: 'column',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: 'translateY(0)',
+          fontFamily: '"Roboto Mono", monospace'
         };
       }
       // MOBILE: diseño horizontal, foto grande, info alineada, botón destacado
       return {
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderRadius: 20,
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
-        backdropFilter: 'blur(20px)',
-        color: '#1a1a2e',
+        border: '2px solid rgba(74, 124, 89, 0.3)',
+        borderRadius: 16,
+        background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 30, 20, 0.95) 100%)',
+        backdropFilter: 'blur(10px)',
+        color: '#e0e0e0',
         width: '98vw',
         maxWidth: 500,
         minHeight: 140,
         margin: '0 auto 20px auto',
         boxShadow: arma.destacado 
-          ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
-          : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
+          ? '0 0 30px rgba(74, 124, 89, 0.6), 0 16px 40px rgba(0, 0, 0, 0.4)' 
+          : '0 8px 32px rgba(0, 0, 0, 0.6)',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
@@ -185,17 +173,18 @@ function Listado() {
         overflow: 'hidden',
         position: 'relative',
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        fontFamily: '"Roboto Mono", monospace'
       };
     },
     destacado: { 
       position: 'absolute', 
       top: 0, 
       left: 0, 
-      background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
-      color: '#1a1a2e', 
+      background: 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)', 
+      color: '#fff', 
       fontWeight: 800, 
       padding: '8px 20px 8px 16px', 
-      borderRadius: '0 0 16px 0', 
+      borderRadius: '0 0 12px 0', 
       fontSize: 14, 
       letterSpacing: '1px', 
       zIndex: 2, 
@@ -203,18 +192,20 @@ function Listado() {
       alignItems: 'center', 
       gap: 8,
       textTransform: 'uppercase',
-      boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)'
+      boxShadow: '0 0 15px rgba(74, 124, 89, 0.5)',
+      fontFamily: '"Roboto Mono", monospace',
+      textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
     },
     img: {
       width: 'calc(100% - 32px)',
       height: 200,
       objectFit: 'contain',
       border: 'none',
-      borderRadius: '16px 16px 0 0',
-      background: '#fff',
+      borderRadius: '12px 12px 0 0',
+      background: '#1a1a1a',
       margin: '16px 16px 0 16px',
       display: 'block',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
     },
     imgMobile: {
       width: '38vw',
@@ -224,103 +215,106 @@ function Listado() {
       minWidth: 110,
       objectFit: 'contain',
       border: 'none',
-      borderRadius: 16,
-      background: '#fff',
+      borderRadius: 12,
+      background: '#1a1a1a',
       margin: '12px 0 12px 16px',
       display: 'block',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
     },
     nombre: { 
       fontWeight: 700, 
       fontSize: 20, 
       margin: '16px 0 8px 0', 
-      color: '#1a1a2e', 
+      color: '#4a7c59', 
       textAlign: 'center',
-      letterSpacing: '0.5px'
+      letterSpacing: '1px',
+      fontFamily: '"Roboto Mono", monospace',
+      textShadow: '0 0 8px rgba(74, 124, 89, 0.4)'
     },
     precio: { 
       fontWeight: 800, 
       fontSize: 24, 
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text',
+      color: '#4a7c59',
       margin: '8px 0 0 0',
-      textAlign: 'center'
+      textAlign: 'center',
+      fontFamily: '"Roboto Mono", monospace',
+      textShadow: '0 0 8px rgba(74, 124, 89, 0.4)'
     },
     btn: { 
-      background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
-      color: '#1a1a2e', 
-      border: 'none', 
-      borderRadius: 12, 
+      background: 'linear-gradient(135deg, #4a7c59 0%, #2d5d3d 100%)', 
+      color: '#fff', 
+      border: '2px solid #4a7c59', 
+      borderRadius: 8, 
       padding: '12px 24px', 
       fontWeight: 700, 
       cursor: 'pointer', 
       margin: '12px 8px 16px 0', 
       fontSize: 15,
       transition: 'all 0.3s ease',
-      boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)',
+      boxShadow: '0 0 15px rgba(74, 124, 89, 0.4)',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px'
+      letterSpacing: '1px',
+      fontFamily: '"Roboto Mono", monospace'
     },
     btnDetalles: { 
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-      color: '#fff', 
-      border: 'none', 
-      borderRadius: 12, 
+      background: 'linear-gradient(135deg, #555 0%, #333 100%)', 
+      color: '#e0e0e0', 
+      border: '2px solid #555', 
+      borderRadius: 8, 
       padding: '12px 24px', 
       fontWeight: 700, 
       cursor: 'pointer', 
       fontSize: 15,
       transition: 'all 0.3s ease',
-      boxShadow: '0 4px 15px rgba(118, 75, 162, 0.3)',
+      boxShadow: '0 0 10px rgba(85, 85, 85, 0.4)',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px'
+      letterSpacing: '1px',
+      fontFamily: '"Roboto Mono", monospace'
     },
     chip: color => ({ 
       display: 'inline-block', 
       background: `linear-gradient(135deg, ${color} 0%, ${color}aa 100%)`, 
       color: '#fff', 
-      borderRadius: 20, 
+      borderRadius: 8, 
       padding: '6px 12px', 
       fontSize: 12, 
       fontWeight: 600, 
       margin: '0 6px 6px 0',
       textTransform: 'uppercase',
-      letterSpacing: '0.5px',
-      boxShadow: `0 2px 8px ${color}33`
+      letterSpacing: '1px',
+      boxShadow: `0 0 8px ${color}33`,
+      fontFamily: '"Roboto Mono", monospace'
     }),
     vendido: { 
       marginTop: 12, 
       fontWeight: 800, 
-      background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      backgroundClip: 'text',
+      color: '#8b0000',
       fontSize: 20, 
       textAlign: 'center',
       textTransform: 'uppercase',
-      letterSpacing: '1px'
+      letterSpacing: '2px',
+      fontFamily: '"Roboto Mono", monospace',
+      textShadow: '0 0 10px rgba(139, 0, 0, 0.5)'
     },
     contacto: { 
       marginTop: 12, 
       fontSize: 14, 
-      background: 'rgba(255, 255, 255, 0.8)', 
-      borderRadius: 12, 
+      background: 'rgba(26, 26, 26, 0.9)', 
+      borderRadius: 8, 
       padding: 12,
-      backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      color: '#1a1a2e'
+      border: '1px solid rgba(74, 124, 89, 0.3)',
+      color: '#e0e0e0',
+      fontFamily: '"Roboto Mono", monospace'
     },
     detalles: { 
       fontSize: 13, 
-      background: 'rgba(255, 255, 255, 0.6)', 
-      borderRadius: 12, 
+      background: 'rgba(15, 15, 15, 0.9)', 
+      borderRadius: 8, 
       padding: 12, 
       marginTop: 8,
-      backdropFilter: 'blur(10px)',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
-      color: '#1a1a2e'
+      border: '1px solid rgba(74, 124, 89, 0.2)',
+      color: '#c0c0c0',
+      fontFamily: '"Roboto Mono", monospace'
     }
   };
 
