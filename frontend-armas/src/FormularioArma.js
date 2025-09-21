@@ -102,11 +102,29 @@ function FormularioArma() {
 
 	// --- ESTILOS ---
 	const styles = {
-		page: { width: '100vw', minHeight: '100vh', background: '#e6eaf2', color: '#223a5e', fontFamily: 'inherit', padding: 0, margin: 0, boxSizing: 'border-box', position: 'relative', overflowX: 'hidden', paddingBottom: 48 },
-		container: { maxWidth: 1200, margin: '120px auto 0 auto', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' },
+		page: { width: '100vw', minHeight: '100vh', background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', color: '#1a1a2e', fontFamily: 'Inter, Segoe UI, Roboto, Arial, Helvetica, sans-serif', padding: 0, margin: 0, boxSizing: 'border-box', position: 'relative', overflowX: 'hidden', paddingBottom: 48 },
+		container: { maxWidth: 1200, margin: '100px auto 0 auto', padding: '0 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' },
 		// btnVolver eliminado
-		titulo: { color: '#ffc107', fontWeight: 700, fontSize: 36, textAlign: 'center', margin: '0px 0 18px 0', letterSpacing: 1, textShadow: '1px 1px 2px #222', textTransform: 'uppercase' },
-		subtitulo: { color: '#223a5e', fontWeight: 400, fontSize: 18, textAlign: 'center', marginBottom: 32 },
+		titulo: { 
+			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+			WebkitBackgroundClip: 'text',
+			WebkitTextFillColor: 'transparent',
+			backgroundClip: 'text',
+			fontWeight: 800, 
+			fontSize: 36, 
+			textAlign: 'center', 
+			margin: '0px 0 18px 0', 
+			letterSpacing: '2px', 
+			textTransform: 'uppercase'
+		},
+		subtitulo: { 
+			color: '#64748b', 
+			fontWeight: 500, 
+			fontSize: 18, 
+			textAlign: 'center', 
+			marginBottom: 32,
+			letterSpacing: '0.5px'
+		},
 		form: { width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 32 },
 			cardsRow: { display: 'flex', flexDirection: 'row', gap: 32, width: '100%', justifyContent: 'center', flexWrap: 'wrap',
 				'@media (max-width: 700px)': {
@@ -115,32 +133,202 @@ function FormularioArma() {
 					alignItems: 'center',
 				}
 			},
-			card: { background: '#223a5e', border: '2.5px solid #ffc107', borderRadius: 16, boxShadow: '0 2px 16px #0002', padding: 24, minWidth: 260, maxWidth: 370, flex: 1, color: '#fff', display: 'flex', flexDirection: 'column', gap: 16, position: 'relative',
-				'@media (max-width: 700px)': {
-					minWidth: '90vw',
-					maxWidth: '98vw',
-					margin: '0 auto 12px auto',
-					padding: 12,
-				}
-			},
-		cardTitle: { color: '#ffc107', fontWeight: 700, fontSize: 20, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8, letterSpacing: 0.5 },
-		label: { fontWeight: 600, marginBottom: 2, color: '#ffc107', fontSize: 14 },
-		input: { border: '1px solid #bbb', borderRadius: 6, padding: '8px 12px', fontSize: 15, marginBottom: 18, width: '90%', maxWidth: 320, minWidth: 120, boxSizing: 'border-box', display: 'block', marginLeft: 'auto', marginRight: 'auto' },
-		select: { border: '1px solid #bbb', borderRadius: 6, padding: '8px 12px', fontSize: 15, marginBottom: 18, width: '90%', maxWidth: 320, minWidth: 120, boxSizing: 'border-box', display: 'block', marginLeft: 'auto', marginRight: 'auto' },
-		radioGroup: { display: 'flex', gap: 16, marginBottom: 8 },
-		radioBtn: checked => ({ background: checked ? '#556b2f' : '#fff', color: checked ? '#fff' : '#223a5e', border: '1.5px solid #556b2f', borderRadius: 8, padding: '7px 18px', fontWeight: 700, cursor: 'pointer', fontSize: 15, outline: 'none' }),
-		textarea: { border: '1px solid #bbb', borderRadius: 6, padding: '8px 12px', fontSize: 15, marginBottom: 8, width: '96%', maxWidth: 700, minWidth: 180, minHeight: 120, boxSizing: 'border-box', display: 'block', marginLeft: 'auto', marginRight: 'auto', resize: 'none' },
-			imgCard: { background: '#223a5e', border: '2.5px solid #ffc107', borderRadius: 16, boxShadow: '0 2px 16px #0002', padding: 24, color: '#fff', marginTop: 32, width: '100%', maxWidth: 1150,
-				'@media (max-width: 700px)': {
-					maxWidth: '98vw',
-					minWidth: '90vw',
-					padding: 12,
-				}
-			},
-		imgTitle: { color: '#ffc107', fontWeight: 700, fontSize: 20, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8, letterSpacing: 0.5 },
-		btn: { background: '#556b2f', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 38px', fontWeight: 700, fontSize: 18, marginTop: 18, cursor: 'pointer', letterSpacing: 1, boxShadow: '0 2px 8px #0002' },
-		previewImg: { borderRadius: 8, border: '1.5px solid #ffc107', margin: 2, width: 80, height: 60, objectFit: 'cover', background: '#fff' },
-		mensaje: { marginTop: 18, fontWeight: 600, fontSize: 17, color: '#223a5e', textAlign: 'center' }
+			card: { 
+			background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)', 
+			backdropFilter: 'blur(20px)',
+			border: '1px solid rgba(255, 255, 255, 0.2)', 
+			borderRadius: 24, 
+			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)', 
+			padding: 32, 
+			minWidth: 280, 
+			maxWidth: 400, 
+			flex: 1, 
+			color: '#1a1a2e', 
+			display: 'flex', 
+			flexDirection: 'column', 
+			gap: 20, 
+			position: 'relative',
+			transition: 'all 0.3s ease'
+		},
+		cardTitle: { 
+			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+			WebkitBackgroundClip: 'text',
+			WebkitTextFillColor: 'transparent',
+			backgroundClip: 'text',
+			fontWeight: 800, 
+			fontSize: 20, 
+			marginBottom: 12, 
+			display: 'flex', 
+			alignItems: 'center', 
+			gap: 8, 
+			letterSpacing: '1px',
+			textTransform: 'uppercase'
+		},
+		label: { 
+			fontWeight: 600, 
+			marginBottom: 2, 
+			color: '#1a1a2e', 
+			fontSize: 14,
+			textTransform: 'uppercase',
+			letterSpacing: '0.5px'
+		},
+		input: { 
+			border: '2px solid rgba(102, 126, 234, 0.2)', 
+			borderRadius: 12, 
+			padding: '12px 16px', 
+			fontSize: 15, 
+			marginBottom: 18, 
+			width: '100%', 
+			maxWidth: 320, 
+			minWidth: 120, 
+			boxSizing: 'border-box', 
+			display: 'block', 
+			marginLeft: 'auto', 
+			marginRight: 'auto',
+			background: 'rgba(255, 255, 255, 0.8)',
+			transition: 'all 0.3s ease',
+			color: '#1a1a2e'
+		},
+		'input:focus': {
+			outline: 'none',
+			borderColor: '#4facfe',
+			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
+			background: 'rgba(255, 255, 255, 1)'
+		},
+		select: { 
+			border: '2px solid rgba(102, 126, 234, 0.2)', 
+			borderRadius: 12, 
+			padding: '12px 16px', 
+			fontSize: 15, 
+			marginBottom: 18, 
+			width: '100%', 
+			maxWidth: 320, 
+			minWidth: 120, 
+			boxSizing: 'border-box', 
+			display: 'block', 
+			marginLeft: 'auto', 
+			marginRight: 'auto',
+			background: 'rgba(255, 255, 255, 0.8)',
+			transition: 'all 0.3s ease',
+			color: '#1a1a2e',
+			cursor: 'pointer'
+		},
+		'select:focus': {
+			outline: 'none',
+			borderColor: '#4facfe',
+			boxShadow: '0 0 0 3px rgba(79, 172, 254, 0.1), 0 4px 12px rgba(0, 0, 0, 0.1)',
+			background: 'rgba(255, 255, 255, 1)'
+		},
+		radioGroup: { display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap' },
+		radioBtn: checked => ({ 
+			background: checked 
+				? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' 
+				: 'rgba(255, 255, 255, 0.8)', 
+			color: checked ? '#fff' : '#1a1a2e', 
+			border: `2px solid ${checked ? 'transparent' : 'rgba(102, 126, 234, 0.3)'}`, 
+			borderRadius: 12, 
+			padding: '10px 20px', 
+			fontWeight: 700, 
+			cursor: 'pointer', 
+			fontSize: 15, 
+			outline: 'none',
+			transition: 'all 0.3s ease',
+			textTransform: 'uppercase',
+			letterSpacing: '0.5px',
+			boxShadow: checked ? '0 4px 15px rgba(102, 126, 234, 0.3)' : 'none'
+		}),
+		textarea: { 
+			border: '2px solid rgba(102, 126, 234, 0.2)', 
+			borderRadius: 12, 
+			padding: '16px', 
+			fontSize: 15, 
+			marginBottom: 8, 
+			width: '100%', 
+			maxWidth: 700, 
+			minWidth: 180, 
+			minHeight: 120, 
+			boxSizing: 'border-box', 
+			display: 'block', 
+			marginLeft: 'auto', 
+			marginRight: 'auto', 
+			resize: 'vertical',
+			background: 'rgba(255, 255, 255, 0.8)',
+			transition: 'all 0.3s ease',
+			color: '#1a1a2e',
+			fontFamily: 'inherit'
+		},
+		imgCard: { 
+			background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)', 
+			backdropFilter: 'blur(20px)',
+			border: '1px solid rgba(255, 255, 255, 0.2)', 
+			borderRadius: 24, 
+			boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)', 
+			padding: 32, 
+			color: '#1a1a2e', 
+			marginTop: 32, 
+			width: '100%', 
+			maxWidth: 1150
+		},
+		imgTitle: { 
+			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+			WebkitBackgroundClip: 'text',
+			WebkitTextFillColor: 'transparent',
+			backgroundClip: 'text',
+			fontWeight: 800, 
+			fontSize: 20, 
+			marginBottom: 12, 
+			display: 'flex', 
+			alignItems: 'center', 
+			gap: 8, 
+			letterSpacing: '1px',
+			textTransform: 'uppercase'
+		},
+		btn: { 
+			background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
+			color: '#1a1a2e', 
+			border: 'none', 
+			borderRadius: 12, 
+			padding: '16px 48px', 
+			fontWeight: 800, 
+			fontSize: 18, 
+			marginTop: 18, 
+			cursor: 'pointer', 
+			letterSpacing: '1px',
+			textTransform: 'uppercase',
+			boxShadow: '0 8px 25px rgba(79, 172, 254, 0.4)',
+			transition: 'all 0.3s ease',
+			position: 'relative',
+			overflow: 'hidden'
+		},
+		'btn:hover': {
+			transform: 'translateY(-2px)',
+			boxShadow: '0 12px 35px rgba(79, 172, 254, 0.5)'
+		},
+		'btn:active': {
+			transform: 'translateY(0)',
+			boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)'
+		},
+		previewImg: { 
+			borderRadius: 12, 
+			border: '2px solid rgba(102, 126, 234, 0.3)', 
+			margin: 2, 
+			width: 80, 
+			height: 60, 
+			objectFit: 'cover', 
+			background: '#fff',
+			boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+		},
+		mensaje: { 
+			marginTop: 18, 
+			fontWeight: 600, 
+			fontSize: 17, 
+			color: '#1a1a2e', 
+			textAlign: 'center',
+			padding: '16px',
+			borderRadius: 12,
+			background: 'rgba(79, 172, 254, 0.1)',
+			border: '1px solid rgba(79, 172, 254, 0.2)'
+		}
 	};
 
 		const handleVolver = () => window.history.back();
@@ -218,7 +406,25 @@ function FormularioArma() {
 							</div>
 							<label style={styles.label}>COMENTARIOS Y DETALLES</label>
 							<textarea style={styles.textarea} name="comentarios" placeholder="Incluya detalles importantes, estado, etc." value={campos.comentarios} onChange={handleChange} />
-							<button type="submit" style={styles.btn} disabled={cargando}>{cargando ? 'Enviando...' : 'ENVIAR'}</button>
+							<button 
+								type="submit" 
+								style={styles.btn} 
+								disabled={cargando}
+								onMouseEnter={(e) => {
+									if (!cargando) {
+										e.target.style.transform = 'translateY(-2px)';
+										e.target.style.boxShadow = '0 12px 35px rgba(79, 172, 254, 0.5)';
+									}
+								}}
+								onMouseLeave={(e) => {
+									if (!cargando) {
+										e.target.style.transform = 'translateY(0)';
+										e.target.style.boxShadow = '0 8px 25px rgba(79, 172, 254, 0.4)';
+									}
+								}}
+							>
+								{cargando ? 'Enviando...' : 'ENVIAR'}
+							</button>
 							{mensaje && <div style={styles.mensaje}>{mensaje}</div>}
 						</div>
 					</form>

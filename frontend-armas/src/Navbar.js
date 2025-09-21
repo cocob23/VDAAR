@@ -4,8 +4,9 @@ import './Navbar.css';
 
 // Estilos globales para fondo y fuente
 if (typeof document !== 'undefined') {
-  document.body.style.background = '#e6eaf2'; // gris azulado suave
-  document.body.style.fontFamily = 'Segoe UI, Roboto, Arial, Helvetica, sans-serif';
+  document.body.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
+  document.body.style.minHeight = '100vh';
+  document.body.style.fontFamily = 'Inter, Segoe UI, Roboto, Arial, Helvetica, sans-serif';
   document.body.style.margin = 0;
 }
 
