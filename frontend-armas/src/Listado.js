@@ -15,6 +15,7 @@ const FILTROS_INICIALES = {
   empadronamiento: '',
   precio_orden: 'recientes', // valor por defecto
   busqueda: '',
+  solo_favoritos: false,
 };
 
 function Listado() {
@@ -22,6 +23,7 @@ function Listado() {
   const [filtros, setFiltros] = useState(FILTROS_INICIALES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [favorites, setFavorites] = useState(new Set());
   const navigate = useNavigate();
 
   // --- ESTILOS PROFESIONALES PREMIUM ---
@@ -384,10 +386,35 @@ function Listado() {
     }
   };
 
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('firearmsFavorites');
+    if (savedFavorites) {
+      setFavorites(new Set(JSON.parse(savedFavorites)));
+    }
+  }, []);
+
+  // Save favorites to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('firearmsFavorites', JSON.stringify([...favorites]));
+  }, [favorites]);
+
+  const toggleFavorite = (armaId) => {
+    setFavorites(prev => {
+      const newFavorites = new Set(prev);
+      if (newFavorites.has(armaId)) {
+        newFavorites.delete(armaId);
+      } else {
+        newFavorites.add(armaId);
+      }
+      return newFavorites;
+    });
+  };
+
   useEffect(() => {
     fetchArmas();
     // eslint-disable-next-line
-  }, [filtros]);
+  }, [filtros, favorites]);
 
   const fetchArmas = async () => {
     setLoading(true);
@@ -444,6 +471,11 @@ function Listado() {
         filteredData.sort((a, b) => b.precio_venta - a.precio_venta);
       } else {
         filteredData.sort((a, b) => new Date(b.fecha_creacion) - new Date(a.fecha_creacion));
+      }
+      
+      // Apply favorites filter
+      if (filtros.solo_favoritos) {
+        filteredData = filteredData.filter(arma => favorites.has(arma.id));
       }
       
       setArmas(filteredData);
@@ -528,6 +560,42 @@ function Listado() {
             >
               Borrar filtros
             </button>
+            <label style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              fontSize: 16,
+              fontWeight: 600,
+              color: '#ffffff',
+              cursor: 'pointer',
+              padding: '8px 16px',
+              borderRadius: 12,
+              background: filtros.solo_favoritos ? 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' : 'rgba(255, 255, 255, 0.1)',
+              border: '2px solid rgba(255, 255, 255, 0.2)',
+              transition: 'all 0.3s ease'
+            }}>
+              <input
+                type="checkbox"
+                checked={filtros.solo_favoritos}
+                onChange={(e) => setFiltros(f => ({ ...f, solo_favoritos: e.target.checked }))}
+                style={{ display: 'none' }}
+              />
+              <span style={{ fontSize: 18 }}>
+                {filtros.solo_favoritos ? '❤️' : '🤍'}
+              </span>
+              Solo Favoritos
+              {favorites.size > 0 && (
+                <span style={{
+                  background: 'rgba(255, 255, 255, 0.2)',
+                  borderRadius: '50%',
+                  padding: '4px 8px',
+                  fontSize: 12,
+                  fontWeight: 700
+                }}>
+                  {favorites.size}
+                </span>
+              )}
+            </label>
           </div>
           {loading && <p>Cargando armas...</p>}
           {error && <p style={{color:'red'}}>{error}</p>}
@@ -561,6 +629,49 @@ function Listado() {
                       DESTACADO
                     </div>
                   )}
+                  
+                  <button 
+                    style={{
+                      position: 'absolute',
+                      top: arma.destacado ? 50 : 16,
+                      right: 16,
+                      background: favorites.has(arma.id) 
+                        ? 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)' 
+                        : 'rgba(255, 255, 255, 0.9)',
+                      color: favorites.has(arma.id) ? '#ffffff' : '#6b7280',
+                      border: 'none',
+                      borderRadius: '50%',
+                      width: 44,
+                      height: 44,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      fontSize: 18,
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                      zIndex: 5,
+                      ':hover': {
+                        transform: 'scale(1.1)',
+                        boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)'
+                      }
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(arma.id);
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'scale(1.1)';
+                      e.target.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'scale(1)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+                    }}
+                    title={favorites.has(arma.id) ? "Quitar de favoritos" : "Agregar a favoritos"}
+                  >
+                    {favorites.has(arma.id) ? '❤️' : '🤍'}
+                  </button>
                   
                   {arma.fotos && arma.fotos.length > 0 && (
                     <img 
