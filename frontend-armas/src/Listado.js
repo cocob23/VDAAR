@@ -26,19 +26,33 @@ function Listado() {
   // --- ESTILOS CSS-IN-JS ---
   const styles = {
     container: { width: '100vw', maxWidth: '100vw', margin: 0, padding: 0 },
-  titulo: { color: '#ffc107', fontWeight: 700, fontSize: 36, textAlign: 'center', margin: '48px 0 18px 0', letterSpacing: 1, textShadow: '1px 1px 2px #222', textTransform: 'uppercase' },
+    titulo: { 
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      fontWeight: 800, 
+      fontSize: 42, 
+      textAlign: 'center', 
+      margin: '48px 0 32px 0', 
+      letterSpacing: '2px', 
+      textTransform: 'uppercase',
+      textShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+    },
     filtros: {
-      background: '#223a5e',
-      borderRadius: 18,
-      padding: 18,
+      background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%)',
+      backdropFilter: 'blur(20px)',
+      borderRadius: 24,
+      padding: 24,
       display: 'flex',
-      gap: 12,
+      gap: 16,
       flexWrap: 'wrap',
       alignItems: 'center',
-      marginBottom: 24,
-      boxShadow: '0 2px 8px #0002',
-      width: 'calc(100vw - 64px)',
-      minWidth: 'calc(100vw - 64px)',
+      marginBottom: 32,
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      width: 'calc(100vw - 80px)',
+      minWidth: 'calc(100vw - 80px)',
       position: 'relative',
       left: '50%',
       transform: 'translateX(-50%)',
@@ -46,9 +60,48 @@ function Listado() {
       marginLeft: 0,
       marginRight: 0
     },
-    input: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120 },
-    select: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120 },
-    btnBorrar: { background: '#d32f2f', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontWeight: 600, cursor: 'pointer', marginLeft: 8 },
+    input: { 
+      border: '2px solid rgba(255, 255, 255, 0.1)', 
+      borderRadius: 12, 
+      padding: '12px 16px', 
+      fontSize: 15, 
+      minWidth: 140,
+      background: 'rgba(255, 255, 255, 0.95)',
+      color: '#1a1a2e',
+      fontWeight: 500,
+      transition: 'all 0.3s ease',
+      backdropFilter: 'blur(10px)',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+    },
+    select: { 
+      border: '2px solid rgba(255, 255, 255, 0.1)', 
+      borderRadius: 12, 
+      padding: '12px 16px', 
+      fontSize: 15, 
+      minWidth: 140,
+      background: 'rgba(255, 255, 255, 0.95)',
+      color: '#1a1a2e',
+      fontWeight: 500,
+      transition: 'all 0.3s ease',
+      backdropFilter: 'blur(10px)',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+      cursor: 'pointer'
+    },
+    btnBorrar: { 
+      background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)', 
+      color: '#fff', 
+      border: 'none', 
+      borderRadius: 12, 
+      padding: '12px 24px', 
+      fontWeight: 600, 
+      cursor: 'pointer', 
+      marginLeft: 12,
+      fontSize: 15,
+      transition: 'all 0.3s ease',
+      boxShadow: '0 4px 15px rgba(238, 90, 36, 0.3)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px'
+    },
 
     grid: {
       display: 'flex',
@@ -75,73 +128,184 @@ function Listado() {
       const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
       if (!isMobile) {
         return {
-          border: '3px solid #ffc107',
-          borderRadius: 14,
-          background: '#223a5e',
-          color: '#fff',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: 24,
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
+          backdropFilter: 'blur(20px)',
+          color: '#1a1a2e',
           padding: 0,
-          width: 300,
+          width: 320,
           maxWidth: '98vw',
-          boxShadow: arma.destacado ? '0 0 16px #ffc10755' : '0 2px 8px #0002',
+          boxShadow: arma.destacado 
+            ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
+            : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
           position: 'relative',
           overflow: 'hidden',
-          marginBottom: 8,
+          marginBottom: 16,
           display: 'flex',
           flexDirection: 'column',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transform: 'translateY(0)',
         };
       }
       // MOBILE: diseño horizontal, foto grande, info alineada, botón destacado
       return {
-        border: '3px solid #ffc107',
-        borderRadius: 16,
-        background: '#223a5e',
-        color: '#fff',
+        border: '1px solid rgba(255, 255, 255, 0.2)',
+        borderRadius: 20,
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
+        backdropFilter: 'blur(20px)',
+        color: '#1a1a2e',
         width: '98vw',
         maxWidth: 500,
-        minHeight: 120,
-        margin: '0 auto 16px auto',
-        boxShadow: arma.destacado ? '0 0 16px #ffc10755' : '0 2px 8px #0002',
+        minHeight: 140,
+        margin: '0 auto 20px auto',
+        boxShadow: arma.destacado 
+          ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
+          : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         padding: 0,
         overflow: 'hidden',
         position: 'relative',
+        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       };
     },
-    destacado: { position: 'absolute', top: 0, left: 0, background: '#ffc107', color: '#222', fontWeight: 700, padding: '4px 16px 4px 10px', borderRadius: '0 0 12px 0', fontSize: 15, letterSpacing: 1, zIndex: 2, display: 'flex', alignItems: 'center', gap: 6 },
+    destacado: { 
+      position: 'absolute', 
+      top: 0, 
+      left: 0, 
+      background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
+      color: '#1a1a2e', 
+      fontWeight: 800, 
+      padding: '8px 20px 8px 16px', 
+      borderRadius: '0 0 16px 0', 
+      fontSize: 14, 
+      letterSpacing: '1px', 
+      zIndex: 2, 
+      display: 'flex', 
+      alignItems: 'center', 
+      gap: 8,
+      textTransform: 'uppercase',
+      boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)'
+    },
     img: {
       width: 'calc(100% - 32px)',
-      height: 180,
+      height: 200,
       objectFit: 'contain',
-      border: '1px solid #ffc107',
-      borderRadius: 0,
+      border: 'none',
+      borderRadius: '16px 16px 0 0',
       background: '#fff',
       margin: '16px 16px 0 16px',
       display: 'block',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     },
     imgMobile: {
-  width: '38vw',
+      width: '38vw',
       height: 'auto',
       aspectRatio: '1.2/1',
       maxWidth: 170,
       minWidth: 110,
       objectFit: 'contain',
-      border: '2px solid #ffc107',
-      borderRadius: 12,
+      border: 'none',
+      borderRadius: 16,
       background: '#fff',
-      margin: '0 0 0 8px',
+      margin: '12px 0 12px 16px',
       display: 'block',
-      boxShadow: '0 2px 8px #0003',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     },
-    nombre: { fontWeight: 700, fontSize: 20, margin: '12px 0 2px 0', color: '#ffc107', textAlign: 'center' },
-    precio: { fontWeight: 700, fontSize: 20, color: '#ffc107', margin: '8px 0 0 0' },
-    btn: { background: '#009e3c', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontWeight: 600, cursor: 'pointer', margin: '10px 8px 10px 0', fontSize: 15 },
-  btnDetalles: { background: '#556b2f', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 18px', fontWeight: 600, cursor: 'pointer', fontSize: 15 },
-    chip: color => ({ display: 'inline-block', background: color, color: '#fff', borderRadius: 8, padding: '2px 10px', fontSize: 13, fontWeight: 600, margin: '0 4px 4px 0' }),
-    vendido: { marginTop: 8, fontWeight: 'bold', color: 'red', fontSize: 18, textAlign: 'center' },
-    contacto: { marginTop: 8, fontSize: 14, background: '#fff2', borderRadius: 8, padding: 8 },
-    detalles: { fontSize: 13, background: '#fff1', borderRadius: 8, padding: 8, marginTop: 8 }
+    nombre: { 
+      fontWeight: 700, 
+      fontSize: 20, 
+      margin: '16px 0 8px 0', 
+      color: '#1a1a2e', 
+      textAlign: 'center',
+      letterSpacing: '0.5px'
+    },
+    precio: { 
+      fontWeight: 800, 
+      fontSize: 24, 
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      margin: '8px 0 0 0',
+      textAlign: 'center'
+    },
+    btn: { 
+      background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', 
+      color: '#1a1a2e', 
+      border: 'none', 
+      borderRadius: 12, 
+      padding: '12px 24px', 
+      fontWeight: 700, 
+      cursor: 'pointer', 
+      margin: '12px 8px 16px 0', 
+      fontSize: 15,
+      transition: 'all 0.3s ease',
+      boxShadow: '0 4px 15px rgba(79, 172, 254, 0.3)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px'
+    },
+    btnDetalles: { 
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+      color: '#fff', 
+      border: 'none', 
+      borderRadius: 12, 
+      padding: '12px 24px', 
+      fontWeight: 700, 
+      cursor: 'pointer', 
+      fontSize: 15,
+      transition: 'all 0.3s ease',
+      boxShadow: '0 4px 15px rgba(118, 75, 162, 0.3)',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px'
+    },
+    chip: color => ({ 
+      display: 'inline-block', 
+      background: `linear-gradient(135deg, ${color} 0%, ${color}aa 100%)`, 
+      color: '#fff', 
+      borderRadius: 20, 
+      padding: '6px 12px', 
+      fontSize: 12, 
+      fontWeight: 600, 
+      margin: '0 6px 6px 0',
+      textTransform: 'uppercase',
+      letterSpacing: '0.5px',
+      boxShadow: `0 2px 8px ${color}33`
+    }),
+    vendido: { 
+      marginTop: 12, 
+      fontWeight: 800, 
+      background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+      backgroundClip: 'text',
+      fontSize: 20, 
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      letterSpacing: '1px'
+    },
+    contacto: { 
+      marginTop: 12, 
+      fontSize: 14, 
+      background: 'rgba(255, 255, 255, 0.8)', 
+      borderRadius: 12, 
+      padding: 12,
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      color: '#1a1a2e'
+    },
+    detalles: { 
+      fontSize: 13, 
+      background: 'rgba(255, 255, 255, 0.6)', 
+      borderRadius: 12, 
+      padding: 12, 
+      marginTop: 8,
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      color: '#1a1a2e'
+    }
   };
 
   useEffect(() => {
@@ -243,7 +407,22 @@ function Listado() {
           {error && <p style={{color:'red'}}>{error}</p>}
           <div style={{...styles.grid, padding:'0 0px'}}>
             {armas.map(arma => (
-              <div key={arma.id} style={styles.card(arma)}>
+              <div 
+                key={arma.id} 
+                style={styles.card(arma)}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = arma.destacado 
+                    ? '0 20px 50px rgba(79, 172, 254, 0.4), 0 12px 20px rgba(0, 0, 0, 0.15)' 
+                    : '0 12px 40px rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = arma.destacado 
+                    ? '0 16px 40px rgba(79, 172, 254, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)' 
+                    : '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)';
+                }}
+              >
                 {arma.destacado && (
                   <div style={styles.destacado}>★ DESTACADO</div>
                 )}
@@ -267,7 +446,7 @@ function Listado() {
                     fontWeight: 700,
                     fontSize: typeof window !== 'undefined' && window.innerWidth <= 700 ? 15 : 20,
                     margin: typeof window !== 'undefined' && window.innerWidth <= 700 ? '0 0 2px 0' : '12px 0 2px 0',
-                    color: '#ffc107',
+                    color: '#1a1a2e',
                     textAlign: 'left',
                     letterSpacing: 1,
                     maxWidth: '100%',
