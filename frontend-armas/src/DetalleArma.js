@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from './supabaseClient';
 import Navbar from './Navbar';
@@ -315,6 +316,31 @@ function DetalleArma() {
 
   return (
     <>
+      <Helmet>
+        <html lang="es" />
+        <title>{`${arma.marca} ${arma.modelo} | ventadearmas.ar`}</title>
+        <meta name="description" content={`Comprar ${arma.marca} ${arma.modelo} ${arma.calibre || ''} en ${arma.ciudad || ''} ${arma.provincia || ''}. Estado: ${arma.estado_arma}.`} />
+        <link rel="canonical" href={`https://ventadearmas.ar/arma/${arma.id}`} />
+        <meta property="og:title" content={`${arma.marca} ${arma.modelo}`} />
+        <meta property="og:description" content={`Precio ${arma.moneda === 'USD' ? 'US$' : '$'}${arma.precio_venta}. ${arma.estado_arma}.`} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`https://ventadearmas.ar/arma/${arma.id}`} />
+        {(arma.fotos && arma.fotos[0]) && <meta property="og:image" content={arma.fotos[0]} />}
+        <script type="application/ld+json">{JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: `${arma.marca} ${arma.modelo}`,
+          description: arma.comentarios || `${arma.marca} ${arma.modelo}`,
+          image: arma.fotos && arma.fotos.length ? arma.fotos : undefined,
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: arma.moneda || 'ARS',
+            price: String(arma.precio_venta || ''),
+            availability: arma.estado_publicacion === 'VENDIDA' ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+            url: `https://ventadearmas.ar/arma/${arma.id}`
+          }
+        })}</script>
+      </Helmet>
       <Navbar />
       {/* Fondo blanco para cubrir el espacio arriba */}
       <div style={{

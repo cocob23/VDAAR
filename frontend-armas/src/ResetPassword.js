@@ -43,8 +43,8 @@ export default function ResetPassword() {
         <div style={{ color: '#ffc107', fontWeight: 700, fontSize: 24, textAlign: 'center', margin: '0 0 12px 0', letterSpacing: 1, textShadow: '1px 1px 2px #222', textTransform: 'uppercase' }}>
           Nueva contraseña
         </div>
-  <input type="password" placeholder="Nueva contraseña" value={password} onChange={e => setPassword(e.target.value)} required style={{ border: '1px solid #bbb', borderRadius: 6, padding: '10px 14px', fontSize: 16, width: '100%', boxSizing: 'border-box', background: '#fff', color: '#223a5e', fontWeight: 600 }} />
-  <input type="password" placeholder="Repetir contraseña" value={password2} onChange={e => setPassword2(e.target.value)} required style={{ border: '1px solid #bbb', borderRadius: 6, padding: '10px 14px', fontSize: 16, width: '100%', boxSizing: 'border-box', background: '#fff', color: '#223a5e', fontWeight: 600 }} />
+        <input type="password" placeholder="Nueva contraseña" value={password} onChange={e => setPassword(e.target.value)} required style={{ border: '1px solid #bbb', borderRadius: 6, padding: '10px 14px', fontSize: 16, width: '100%', background: '#fff', color: '#223a5e', fontWeight: 600 }} />
+        <input type="password" placeholder="Repetir contraseña" value={password2} onChange={e => setPassword2(e.target.value)} required style={{ border: '1px solid #bbb', borderRadius: 6, padding: '10px 14px', fontSize: 16, width: '100%', background: '#fff', color: '#223a5e', fontWeight: 600 }} />
         <button type="submit" disabled={loading} style={{ background: '#556b2f', color: '#fff', border: 'none', borderRadius: 8, padding: '12px 0', fontWeight: 700, fontSize: 18, marginTop: 8, cursor: 'pointer', letterSpacing: 1, boxShadow: '0 2px 8px #0002' }}>
           {loading ? 'Actualizando...' : 'Actualizar contraseña'}
         </button>

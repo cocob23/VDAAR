@@ -10,11 +10,24 @@ import LoginAdmin from './LoginAdmin';
 import PanelAdmin from './PanelAdmin';
 import DetalleArma from './DetalleArma';
 import ResetPassword from './ResetPassword';
-import RecuperarCodigo from './RecuperarCodigo';
 import Perfil from './Perfil';
 import Guia from './Guia';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Helmet } from "react-helmet";
+
+
+function TrackPageViews() {
+  const location = useLocation();
+  useEffect(() => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('config', 'G-379M3MFEGY', {
+        page_path: location.pathname + location.search,
+      });
+    }
+  }, [location]);
+  return null;
+}
 
 function App() {
   const [adminAutenticado, setAdminAutenticado] = useState(false);
@@ -38,9 +51,9 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <TrackPageViews />
         <Navbar />
         <Routes>
-          <Route path="/recuperar" element={<RecuperarCodigo />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/admin" element={
             cargandoAuth ? <p>Cargando...</p> :
