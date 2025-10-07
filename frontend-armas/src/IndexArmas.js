@@ -17,6 +17,7 @@ function IndexArmas() {
   const [filtros, setFiltros] = useState(FILTROS_INICIALES);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [tipoSeleccionado, setTipoSeleccionado] = useState(''); // Inicializar con '' para "Todas"
 
   // --- ESTILOS CSS-IN-JS ---
   const styles = {
@@ -26,6 +27,10 @@ function IndexArmas() {
     input: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120 },
     select: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120 },
     btnBorrar: { background: '#d32f2f', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontWeight: 600, cursor: 'pointer', marginLeft: 8 },
+    filtroTipos: { display: 'flex', flexDirection: 'column', gap: 8 },
+    labelTipos: { color: '#fff', fontSize: 14, fontWeight: 600, marginBottom: 4 },
+    tiposContainer: { display: 'flex', gap: 8, flexWrap: 'wrap' },
+    tipoLabel: { color: '#fff', fontSize: 12, marginTop: 4, textAlign: 'center', minWidth: 60 },
     grid: { display: 'flex', flexWrap: 'wrap', gap: 28, justifyContent: 'flex-start' },
     card: arma => ({
       border: arma.destacado ? '3px solid #ffc107' : '1.5px solid #222',
@@ -53,6 +58,8 @@ function IndexArmas() {
 
   useEffect(() => {
     fetchArmas();
+    // Sincronizar el estado visual con los filtros
+    setTipoSeleccionado(filtros.tipo_arma);
     // eslint-disable-next-line
   }, [filtros]);
 
@@ -86,6 +93,11 @@ function IndexArmas() {
     setFiltros(f => ({ ...f, [name]: value }));
   };
 
+  const handleTipoArma = (tipo) => {
+    setTipoSeleccionado(tipo);
+    setFiltros(f => ({ ...f, tipo_arma: tipo }));
+  };
+
   // --- FUNCIONES AUXILIARES PARA CHIPS ---
   const chipColor = tipo => {
     switch(tipo) {
@@ -107,16 +119,54 @@ function IndexArmas() {
         <input name="busqueda" placeholder="Buscar por nombre o modelo" value={filtros.busqueda} onChange={handleFiltro} style={styles.input} />
         <input name="marca" placeholder="Marca" value={filtros.marca} onChange={handleFiltro} style={styles.input} />
         <input name="calibre" placeholder="Calibre" value={filtros.calibre} onChange={handleFiltro} style={styles.input} />
-        <select name="tipo_arma" value={filtros.tipo_arma} onChange={handleFiltro} style={styles.select}>
-          <option value="">Tipo de arma</option>
-          <option value="Pistola">Pistola</option>
-          <option value="Revolver">Revolver</option>
-          <option value="Fusil">Fusil</option>
-          <option value="Carabina">Carabina</option>
-          <option value="Escopeta">Escopeta</option>
-          <option value="Mira telescopica">Mira telescopica</option>
-          <option value="Otro">Otro</option>
-        </select>
+        
+        <div style={styles.filtroTipos}>
+          <div style={styles.labelTipos}>Tipo de arma:</div>
+          <div style={styles.tiposContainer}>
+            {['Todas', 'Pistola', 'Fusil', 'Escopeta', 'Carabina', 'Revolver'].map(tipo => {
+              const tipoValue = tipo === 'Todas' ? '' : tipo;
+              const isSelected = tipoSeleccionado === tipoValue;
+              
+              const handleClick = () => {
+                console.log(`Clicked: ${tipo}, value: "${tipoValue}", was selected: ${isSelected}`);
+                handleTipoArma(tipoValue);
+              };
+              
+              return (
+                <div key={tipo} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '5px' }}>
+                  <button
+                    type="button"
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      border: isSelected ? '3px solid red' : '2px solid #fff',
+                      backgroundColor: isSelected ? 'red' : 'blue',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 0,
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                    onClick={handleClick}
+                  >
+                    {isSelected && (
+                      <div style={{ 
+                        width: '8px', 
+                        height: '8px', 
+                        borderRadius: '50%', 
+                        backgroundColor: '#fff'
+                      }}></div>
+                    )}
+                  </button>
+                  <div style={styles.tipoLabel}>{tipo}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
         <select name="estado_arma" value={filtros.estado_arma} onChange={handleFiltro} style={styles.select}>
           <option value="">Estado</option>
           <option value="Nueva">Nueva</option>
@@ -135,7 +185,10 @@ function IndexArmas() {
           <option value="asc">Precio: menor a mayor</option>
           <option value="desc">Precio: mayor a menor</option>
         </select>
-        <button type="button" onClick={() => setFiltros(FILTROS_INICIALES)} style={styles.btnBorrar}>Borrar filtros</button>
+        <button type="button" onClick={() => {
+          setFiltros(FILTROS_INICIALES);
+          setTipoSeleccionado('');
+        }} style={styles.btnBorrar}>Borrar filtros</button>
       </div>
       {loading && <p>Cargando armas...</p>}
       {error && <p style={{color:'red'}}>{error}</p>}

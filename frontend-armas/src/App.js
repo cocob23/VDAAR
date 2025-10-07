@@ -10,6 +10,7 @@ import LoginAdmin from './LoginAdmin';
 import PanelAdmin from './PanelAdmin';
 import DetalleArma from './DetalleArma';
 import ResetPassword from './ResetPassword';
+import RecuperarCodigo from './RecuperarCodigo';
 import Perfil from './Perfil';
 import Guia from './Guia';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -39,6 +40,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
+          <Route path="/recuperar" element={<RecuperarCodigo />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/admin" element={
             cargandoAuth ? <p>Cargando...</p> :

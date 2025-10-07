@@ -23,22 +23,29 @@ import { useLocation, useNavigate } from 'react-router-dom';
               const location = useLocation();
 
               const styles = {
-                container: { width: '100vw', maxWidth: '100vw', margin: 0, padding: 0 },
+                container: { width: '100%', maxWidth: '100%', margin: 0, padding: 0, overflowX: 'hidden' },
               titulo: { color: '#e6c86b', fontWeight: 700, fontSize: 28, textAlign: 'center', margin: '16px 0 8px 0', letterSpacing: 1, textShadow: '1px 1px 2px #222' },
-                layout: { maxWidth: 1200, margin: '0 auto', padding: '0 16px 24px 16px', display: 'flex', gap: 24, boxSizing: 'border-box' },
-                sidebar: { width: 280, background: '#f3f3f0', border: '1px solid #ddd', borderRadius: 8, padding: 16, height: 'fit-content', boxShadow: '0 2px 8px #0002', display: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 'none' : 'block' },
+                layout: { maxWidth: 1400, margin: '0 auto', padding: '0 16px 24px 16px', display: 'flex', gap: 20, boxSizing: 'border-box' },
+                sidebar: { width: 220, background: '#f3f3f0', border: '1px solid #ddd', borderRadius: 8, padding: 16, height: 'fit-content', boxShadow: '0 2px 8px #0002', display: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 'none' : 'block', flexShrink: 0 },
                 sTitle: { fontFamily: 'Oswald, Inter, sans-serif', color: '#233042', fontSize: 14, letterSpacing: 1, fontWeight: 900, margin: '12px 0 8px 0' },
                 sep: { height: 1, background: '#ddd', margin: '10px 0' },
                 input: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120, width: '100%', boxSizing: 'border-box' },
                 select: { border: '1px solid #bbb', borderRadius: 6, padding: '7px 10px', fontSize: 15, minWidth: 120, width: '100%' },
                 goBtn: { background: '#b68a49', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 12px', fontWeight: 800, cursor: 'pointer' },
                 btnBorrar: { background: '#d32f2f', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontWeight: 600, cursor: 'pointer', marginTop: 8 },
-                main: { flex: 1 },
-                grid: { display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center', width: '100%', marginTop: 8, marginBottom: 32 },
+                main: { flex: 1, minWidth: 0 },
+                grid: { 
+                  display: 'grid', 
+                  gridTemplateColumns: typeof window !== 'undefined' && window.innerWidth <= 700 ? '1fr' : typeof window !== 'undefined' && window.innerWidth <= 1024 ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', 
+                  gap: 20, 
+                  width: '100%', 
+                  marginTop: 8, 
+                  marginBottom: 32 
+                },
                 card: arma => {
                   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
                   if (!isMobile) {
-                    return { border: '3px solid #bfa14a', borderRadius: 14, background: '#2f3d2b', color: '#fff', padding: 0, width: 300, maxWidth: '98vw', boxShadow: arma.destacado ? '0 0 16px #ffc10755' : '0 2px 8px #0002', position: 'relative', overflow: 'hidden', marginBottom: 8, display: 'flex', flexDirection: 'column' };
+                    return { border: '3px solid #bfa14a', borderRadius: 14, background: '#2f3d2b', color: '#fff', padding: 0, width: '100%', maxWidth: 'none', boxShadow: arma.destacado ? '0 0 16px #ffc10755' : '0 2px 8px #0002', position: 'relative', overflow: 'hidden', marginBottom: 8, display: 'flex', flexDirection: 'column' };
                   }
                   return { border: '1px solid #e0e0e0', borderRadius: 14, background: '#ffffff', color: '#233042', width: 'calc(100vw - 32px)', maxWidth: 520, margin: '8px 16px 16px 16px', boxShadow: arma.destacado ? '0 2px 12px #ffc10755' : '0 2px 8px #0002', display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden', position: 'relative' };
                 },
@@ -142,30 +149,51 @@ import { useLocation, useNavigate } from 'react-router-dom';
                         <aside style={styles.sidebar}>
                           <div style={{fontFamily:'Oswald, Inter, sans-serif', color:'#233042', fontSize:18, fontWeight:900, letterSpacing:1, marginBottom:8}}>CATEGORÍAS</div>
                           <div style={{display:'flex', flexDirection:'column', gap:6}}>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="" checked={!filtros.tipo_arma} onChange={handleFiltro}/>
-                              <span style={{fontWeight: !filtros.tipo_arma ? 800 : 500}}>Todas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Pistola" checked={filtros.tipo_arma==='Pistola'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Pistola' ? 800 : 500}}>Pistolas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Fusil" checked={filtros.tipo_arma==='Fusil'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Fusil' ? 800 : 500}}>Fusiles</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Escopeta" checked={filtros.tipo_arma==='Escopeta'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Escopeta' ? 800 : 500}}>Escopetas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Carabina" checked={filtros.tipo_arma==='Carabina'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Carabina' ? 800 : 500}}>Carabinas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Revolver" checked={filtros.tipo_arma==='Revolver'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Revolver' ? 800 : 500}}>Revólveres</span>
-                            </label>
+                            {[
+                              { label: 'Todas', value: '' },
+                              { label: 'Pistolas', value: 'Pistola' },
+                              { label: 'Fusiles', value: 'Fusil' },
+                              { label: 'Escopetas', value: 'Escopeta' },
+                              { label: 'Carabinas', value: 'Carabina' },
+                              { label: 'Revólveres', value: 'Revolver' }
+                            ].map(({ label, value }) => {
+                              const isSelected = filtros.tipo_arma === value;
+                              return (
+                                <label key={value} style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
+                                  <div
+                                    style={{
+                                      width: '18px',
+                                      height: '18px',
+                                      borderRadius: '50%',
+                                      border: '2px solid #bfa14a',
+                                      backgroundColor: isSelected ? '#000' : 'transparent',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      transition: 'all 0.2s ease'
+                                    }}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const fakeEvent = {
+                                        target: { name: 'tipo_arma', value: value }
+                                      };
+                                      handleFiltro(fakeEvent);
+                                    }}
+                                  >
+                                    {isSelected && (
+                                      <div style={{
+                                        width: '8px',
+                                        height: '8px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#fff'
+                                      }}></div>
+                                    )}
+                                  </div>
+                                  <span style={{fontWeight: isSelected ? 800 : 500}}>{label}</span>
+                                </label>
+                              );
+                            })}
                           </div>
                           <div style={styles.sep}></div>
                           <div style={styles.sTitle}>FILTRAR POR PALABRA CLAVE</div>
@@ -269,32 +297,53 @@ import { useLocation, useNavigate } from 'react-router-dom';
                             <option value="desc">Precio: mayor a menor</option>
                           </select>
                           <div style={styles.sep}></div>
-                          <div style={{fontFamily:'Oswald, Inter, sans-serif', color:'#233042', fontSize:14, letterSpacing:1, fontWeight:900, margin:'12px 0 8px 0'}}>CATEGORÍAS</div>
+                                                    <div style={{fontFamily:'Oswald, Inter, sans-serif', color:'#233042', fontSize:14, letterSpacing:1, fontWeight:900, margin:'12px 0 8px 0'}}>CATEGORÍAS</div>
                           <div style={{display:'flex', flexDirection:'column', gap:6}}>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="" checked={!filtros.tipo_arma} onChange={handleFiltro}/>
-                              <span style={{fontWeight: !filtros.tipo_arma ? 800 : 500}}>Todas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Pistola" checked={filtros.tipo_arma==='Pistola'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Pistola' ? 800 : 500}}>Pistolas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Fusil" checked={filtros.tipo_arma==='Fusil'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Fusil' ? 800 : 500}}>Fusiles</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Escopeta" checked={filtros.tipo_arma==='Escopeta'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Escopeta' ? 800 : 500}}>Escopetas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Carabina" checked={filtros.tipo_arma==='Carabina'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Carabina' ? 800 : 500}}>Carabinas</span>
-                            </label>
-                            <label style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
-                              <input style={{accentColor:'#bfa14a', width:18, height:18, appearance:'auto', WebkitAppearance:'auto', MozAppearance:'auto', cursor:'pointer'}} type="radio" name="tipo_arma" value="Revolver" checked={filtros.tipo_arma==='Revolver'} onChange={handleFiltro}/>
-                              <span style={{fontWeight: filtros.tipo_arma==='Revolver' ? 800 : 500}}>Revólveres</span>
-                            </label>
+                            {[
+                              { label: 'Todas', value: '' },
+                              { label: 'Pistolas', value: 'Pistola' },
+                              { label: 'Fusiles', value: 'Fusil' },
+                              { label: 'Escopetas', value: 'Escopeta' },
+                              { label: 'Carabinas', value: 'Carabina' },
+                              { label: 'Revólveres', value: 'Revolver' }
+                            ].map(({ label, value }) => {
+                              const isSelected = filtros.tipo_arma === value;
+                              return (
+                                <label key={value} style={{display:'flex', alignItems:'center', gap:8, cursor:'pointer'}}>
+                                  <div
+                                    style={{
+                                      width: '18px',
+                                      height: '18px',
+                                      borderRadius: '50%',
+                                      border: '2px solid #bfa14a',
+                                      backgroundColor: isSelected ? '#000' : 'transparent',
+                                      cursor: 'pointer',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      transition: 'all 0.2s ease'
+                                    }}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const fakeEvent = {
+                                        target: { name: 'tipo_arma', value: value }
+                                      };
+                                      handleFiltro(fakeEvent);
+                                    }}
+                                  >
+                                    {isSelected && (
+                                      <div style={{
+                                        width: '8px',
+                                        height: '8px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#fff'
+                                      }}></div>
+                                    )}
+                                  </div>
+                                  <span style={{fontWeight: isSelected ? 800 : 500}}>{label}</span>
+                                </label>
+                              );
+                            })}
                           </div>
                           <div style={styles.sep}></div>
                           <div style={{fontFamily:'Oswald, Inter, sans-serif', color:'#233042', fontSize:14, letterSpacing:1, fontWeight:900, margin:'12px 0 8px 0'}}>FILTRAR POR PALABRA CLAVE</div>
