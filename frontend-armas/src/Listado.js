@@ -74,13 +74,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
                 goBtn: { background: '#b68a49', color: '#fff', border: 'none', borderRadius: 6, padding: '8px 12px', fontWeight: 800, cursor: 'pointer' },
                 btnBorrar: { background: '#d32f2f', color: '#fff', border: 'none', borderRadius: 6, padding: '7px 16px', fontWeight: 600, cursor: 'pointer', marginTop: 8 },
                 main: { flex: 1 },
-                grid: { display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center', width: '100%', marginTop: 8, marginBottom: 32 },
+                grid: { display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center', width: '100%', marginTop: 8, marginBottom: 32, boxSizing: 'border-box' },
                 card: arma => {
                   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 700;
                   if (!isMobile) {
                     return { border: '3px solid #bfa14a', borderRadius: 14, background: '#2f3d2b', color: '#fff', padding: 0, width: 300, maxWidth: '98vw', boxShadow: arma.destacado ? '0 0 16px #ffc10755' : '0 2px 8px #0002', position: 'relative', overflow: 'hidden', marginBottom: 8, display: 'flex', flexDirection: 'column' };
                   }
-                  return { border: '1px solid #e0e0e0', borderRadius: 14, background: '#ffffff', color: '#233042', width: 'calc(100vw - 32px)', maxWidth: 520, margin: '8px 16px 16px 16px', boxShadow: arma.destacado ? '0 2px 12px #ffc10755' : '0 2px 8px #0002', display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden', position: 'relative' };
+                  return { border: '1px solid #e0e0e0', borderRadius: 14, background: '#ffffff', color: '#233042', width: '100%', maxWidth: 520, margin: '8px auto 16px', boxShadow: arma.destacado ? '0 2px 12px #ffc10755' : '0 2px 8px #0002', display: 'flex', flexDirection: 'column', padding: 0, overflow: 'hidden', position: 'relative', boxSizing: 'border-box' };
                 },
                 destacado: { position: 'absolute', top: 0, left: 0, background: '#bfa14a', color: '#222', fontWeight: 700, padding: '4px 16px 4px 10px', borderRadius: '0 0 12px 0', fontSize: 15, letterSpacing: 1, zIndex: 2, display: 'flex', alignItems: 'center', gap: 6 },
                 img: { width: 'calc(100% - 32px)', height: 180, objectFit: 'contain', border: '1px solid #bfa14a', borderRadius: 0, background: '#fff', margin: '16px 16px 0 16px', display: 'block' },
@@ -191,8 +191,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
                     <script type="application/ld+json">{JSON.stringify(orgJsonLd)}</script>
                     <script type="application/ld+json">{JSON.stringify(siteJsonLd)}</script>
                   </Helmet>
-                  <div style={{paddingTop:64, margin:0, width:'100vw', minWidth:'100vw', boxSizing:'border-box'}}>
-                    <div style={{width:'100vw', minWidth:'100vw', margin:0, padding:0, boxSizing:'border-box'}}>
+                  <div style={{paddingTop:64, margin:0, width:'100%', minWidth:'100%', boxSizing:'border-box'}}>
+                    <div style={{width:'100%', minWidth:'100%', margin:0, padding:0, boxSizing:'border-box'}}>
                       <h2 style={styles.titulo}>{armas.length} RESULTADOS</h2>
                       <button style={{ display: (typeof window !== 'undefined' && window.innerWidth <= 700) ? 'block' : 'none', background: '#bfa14a', color: '#233042', border: '1px solid #bfa14a', borderRadius: 12, padding: '14px 16px', margin: '8px 16px', width: 'calc(100% - 32px)', textAlign: 'center', fontWeight: 800, boxShadow: '0 2px 8px #0002', letterSpacing: 0.5 }} onClick={()=>setShowMobileFilters(true)}>Ver/Filtrar opciones</button>
                       <div style={styles.layout}>
