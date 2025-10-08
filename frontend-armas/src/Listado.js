@@ -27,11 +27,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
               const qParam = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '').get('q') || '';
               const tipoParam = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '').get('tipo') || '';
               const pageTitle = (qParam || tipoParam)
-                ? `Armas ${tipoParam ? `${tipoParam.toLowerCase()} ` : ''}${qParam ? `- búsqueda: ${qParam}` : ''} | ventadearmas.ar`
-                : 'Armas en venta en Argentina | ventadearmas.ar';
+                ? `Venta de armas ${tipoParam ? `${tipoParam.toLowerCase()} ` : ''}${qParam ? `usadas y nuevas - búsqueda: ${qParam}` : 'usadas y nuevas'} en Argentina | ventadearmas.ar`
+                : 'Venta de armas nuevas y usadas en Argentina | ventadearmas.ar';
               const pageDescription = (qParam || tipoParam)
-                ? `Listado de armas ${tipoParam || ''} en Argentina${qParam ? ` que coinciden con "${qParam}"` : ''}. Comprá y vendé en ventadearmas.ar`
-                : 'Compra y venta de armas en Argentina. Encontrá pistolas, escopetas, carabinas y más en ventadearmas.ar';
+                ? `Compra y venta de armas ${tipoParam || 'nuevas y usadas'} en Argentina${qParam ? ` para \"${qParam}\"` : ''}: pistolas, fusiles, escopetas, revólveres y carabinas. Publicá tu arma en ventadearmas.ar.`
+                : 'Compra y venta de armas nuevas y usadas en Argentina: pistolas, fusiles, escopetas, revólveres y carabinas. Publicá tu arma gratis en ventadearmas.ar.';
               const canonicalUrl = `${baseUrl}/`;
               const orgJsonLd = {
                 '@context': 'https://schema.org',
@@ -50,6 +50,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
                   target: `${baseUrl}/?q={search_term_string}`,
                   'query-input': 'required name=search_term_string'
                 }
+              };
+              const itemListJsonLd = {
+                '@context': 'https://schema.org',
+                '@type': 'ItemList',
+                itemListElement: (armas || []).slice(0, 10).map((a, i) => ({
+                  '@type': 'ListItem',
+                  position: i + 1,
+                  url: `${baseUrl}/arma/${a.id}`,
+                  name: `${a.marca || 'Arma'} ${a.modelo || ''} ${a.calibre || ''}`.trim()
+                }))
               };
 
               const styles = {
@@ -249,7 +259,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
                               <div key={arma.id} style={styles.card(arma)}>
                                 {arma.destacado && (<div style={styles.destacado}>★ DESTACADO</div>)}
                                 {arma.fotos && arma.fotos.length > 0 && (
-                                  <img src={arma.fotos[0]} alt="foto" style={typeof window !== 'undefined' && window.innerWidth <= 700 ? styles.imgMobile : styles.img} />
+                                  <img
+                                    src={arma.fotos[0]}
+                                    alt={`${arma.marca || 'Arma'} ${arma.modelo || ''} ${arma.calibre || ''}`.trim()}
+                                    loading="lazy"
+                                    style={typeof window !== 'undefined' && window.innerWidth <= 700 ? styles.imgMobile : styles.img}
+                                  />
                                 )}
                                 <div style={{
                                   padding: typeof window !== 'undefined' && window.innerWidth <= 700 ? '12px 12px 14px 12px' : '0 16px 10px 16px',
@@ -294,6 +309,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
                               </div>
                             ))}
                           </div>
+
+                          {/* Bloque optimizado removido por estética. Metadatos SEO se mantienen con Helmet. */}
                         </section>
                       </div>
 

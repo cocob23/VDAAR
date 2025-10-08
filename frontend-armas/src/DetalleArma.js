@@ -374,7 +374,8 @@ function DetalleArma() {
                 <>
                   <img
                     src={fotos[fotoIdx]}
-                    alt={`${arma.marca} ${arma.modelo}`}
+                    alt={`${arma.marca || 'Arma'} ${arma.modelo || ''} ${arma.calibre || ''}`.trim()}
+                    loading="eager"
                     style={isMobile ? styles.mobileImage : styles.mainImage}
                     onClick={() => setModalOpen(true)}
                     title="Click para ampliar"
@@ -385,7 +386,8 @@ function DetalleArma() {
                         <img
                           key={idx}
                           src={foto}
-                          alt={`Vista ${idx + 1}`}
+                          alt={`${arma.marca || 'Arma'} ${arma.modelo || ''} ${arma.calibre || ''} - foto ${idx + 1}`.trim()}
+                          loading="lazy"
                           style={{
                             ...styles.thumbnail,
                             ...(idx === fotoIdx ? styles.thumbnailActive : {})
